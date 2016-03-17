@@ -2,6 +2,8 @@ SRC = main.c recurcive.c init.c parse_args.c
 
 OBJ = $(SRC:.c=.o)
 
+LIB = libft
+
 NAME = ft_ls
 
 CC = clang
@@ -9,7 +11,8 @@ CC = clang
 all : $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) libft/libft.a -o $(NAME) -Wall -Wextra
+	make re -C $(LIB)
+	$(CC) $(OBJ) $(LIB)/libft.a -o $(NAME) -Wall -Wextra
 
 re : fclean all
 
