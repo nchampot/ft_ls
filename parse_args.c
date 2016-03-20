@@ -2,7 +2,7 @@
 
 static int	is_opt(char c)
 {
-    return ((c == 'a') || (c =='R') || (c == 'l') || (c == 't') || (c == 'r'));
+	return ((c == 'a') || (c =='R') || (c == 'l') || (c == 't') || (c == 'r'));
 }
 
 int	parse_args(int ac, char **av, char ***startdirs, char **opts)
@@ -13,24 +13,24 @@ int	parse_args(int ac, char **av, char ***startdirs, char **opts)
 	i = 1;
 	while (av[i])
 	{
-        if (av[i][0] == '-' && av[i][0] != '/')
+		if (av[i][0] == '-')
 		{
 			j = 1;
 			while (av[i][j])
 			{
 				if (is_opt(av[i][j]) && !ft_strchr(*opts, av[i][j]))
-					add_chr(opts, av[i][j]);
+					ft_addchr(opts, av[i][j]);
 				else
 					return (-1);
 				j++;
 			} 
 		}
 		else
-			add_str(startdirs, av[i]);
+			ft_addstr(startdirs, av[i]);
 		i++;
 	}
-    if (**startdirs == '\0')
-        **startdirs = ft_strdup(".");
-    return (1);
+	if (**startdirs == '\0')
+			ft_addstr(startdirs, ".");
+	return (1);
 }
 

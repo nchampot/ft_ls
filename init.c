@@ -25,7 +25,7 @@ char    **init(char **startdirs, int is_all)
             return (NULL);
         while ((dp = readdir(dirp)) != NULL)
             if (!is_all || (dp->d_name)[0] != '.')
-                add_str(&print, dp->d_name);
+                ft_addstr(&print, dp->d_name);
         (void)closedir(dirp);
         i++;
     }

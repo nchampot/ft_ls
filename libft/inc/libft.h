@@ -127,5 +127,7 @@ char			**ft_strsplit(char const *s, char c);
 char			*ft_strstr(const char *s1, const char *s2);
 char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			*ft_strtrim(char const *s);
+char			**ft_addstr(char ***tab, const char *s);
+char			*ft_addchr(char **pString, const char c);
 
 #endif

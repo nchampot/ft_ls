@@ -8,78 +8,68 @@
 
 #include "ft_ls.h"
 
-
-
-static int    rekt(char ***print, char *curr)
+static char	*to_print(char *curr, char *opts, struct dirent *dp)
 {
-    DIR  *dirp;
-    struct dirent   *dp;
-    int i;
-    
-    i = 0;
-    if ((dirp = opendir(curr)) == NULL)
-        return (EXIT_FAILURE);
-    while ((dp = readdir(dirp)) != NULL)
-    {
-        if (dp->d_type == DT_DIR && (dp->d_name)[0] != '.')
-        {
-            add_str(print, ft_strjoin("\n\n/", ft_strjoin(ft_strjoin(curr, "/"), ft_strjoin(dp->d_name, ":\n"))));
-             if (curr[ft_strlen(curr) - 1] != '/')
-                rekt(print, ft_strjoin(ft_strjoin(curr, "/"), dp->d_name));
-            else
-                rekt(print, ft_strjoin(curr, dp->d_name));
-        }
-        else
-            add_str(print, dp->d_name);
-    }
-    (void)closedir(dirp);
-    return (EXIT_SUCCESS);
+	char	*buf;
+
+	if (!ft_strchr(opts, 'a') && dp->d_name[0] == '.')
+		return (NULL);
+	buf = ft_strdup(dp->d_name);
+	if (!ft_strchr(opts, 'R') != '\0')
+	{
+		if (dp->d_type == DT_DIR)
+		{
+			buf = ft_strjoin("\n\n", ft_strjoin(ft_strjoin(curr, "/"), ft_strjoin(buf, ":\n")));
+			return (buf);
+		}
+	}
+	if (ft_strchr(opts, 'l') != '\0')
+		buf = ft_strjoin(buf, " +stats\n");
+	else
+		buf = ft_strjoin(buf, " ");
+	return (buf);
 }
 
-static int    rektt(char ***print, char *curr)
+static int    rekt(char *curr, char *opts)
 {
-    DIR  *dirp;
-    struct dirent   *dp;
-    int i;
-    
-    i = 0;
-    if ((dirp = opendir(curr)) == NULL)
-        return (EXIT_FAILURE);
-    while ((dp = readdir(dirp)) != NULL)
-    {
-        if (dp->d_type == DT_DIR && (dp->d_name)[0] != '.' && (dp->d_name)[1])
-        {
-            add_str(print, ft_strjoin("\n\n/", ft_strjoin(ft_strjoin(curr, "/"), ft_strjoin(dp->d_name, ":\n"))));
-             if (curr[ft_strlen(curr) - 1] != '/')
-                rektt(print, ft_strjoin(ft_strjoin(curr, "/"), dp->d_name));
-            else
-                rektt(print, ft_strjoin(curr, dp->d_name));
-        }
-        else if ((dp->d_name)[0] != '.')
-            add_str(print, dp->d_name);
-    }
-    (void)closedir(dirp);
-    return (EXIT_SUCCESS);
+	DIR  *dirp;
+	struct dirent   *dp;
+	int i;
+	char	**to_print;
+
+	i = 0;
+	if ((dirp = opendir(curr)) == NULL)
+		return (EXIT_FAILURE);
+	while ((dp = readdir(dirp)) != NULL)
+	{
+		if (dp->d_type == DT_DIR && ft_strcmp(dp->d_name, ".") && ft_strcmp(dp->d_name, "..")
+			&& !(!ft_strchr(opts, 'R')))
+		{
+			//ft_addstr(print, to_print(curr, opts, dp));
+			if (to_print(curr, opts, dp) != NULL)
+				ft_putstr(to_print(curr, opts, dp));
+			if (curr[ft_strlen(curr) - 1] != '/')
+				rekt(print, ft_strjoin(ft_strjoin(curr, "/"), dp->d_name), opts);
+			else
+				rekt(print, ft_strjoin(curr, dp->d_name), opts);
+		}
+		else if (to_print(curr, opts, dp) != NULL)
+			ft_putstr(to_print(curr, opts, dp));
+	}
+	(void)closedir(dirp);
+	return (EXIT_SUCCESS);
 }
 
-int    recursive(char ***print, char **startdirs, int is_all)
+int    recursive(char ***print, char **startdirs, char *opts)
 {
-    int i;
-    
-    i = 0;
-    while (startdirs[i])
-    {
-        if (is_all)
-        {
-            if (!rektt(print, startdirs[i]))
-                return (EXIT_FAILURE);
-        }
-        else
-        {
-            if (!rekt(print, startdirs[i]))
-                return (EXIT_FAILURE);
-        }
-        i++;
-    }
-    return (EXIT_SUCCESS);
+	int i;
+
+	i = 0;
+	while (startdirs[i])
+	{
+		if (!rekt(print, startdirs[i], opts))
+			return (EXIT_FAILURE);
+		i++;
+	}
+	return (EXIT_SUCCESS);
 }

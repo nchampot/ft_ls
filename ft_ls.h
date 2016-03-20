@@ -12,6 +12,6 @@
 
 int parse_args(int ac, char **av, char ***startdirs, char **opts);
 char    **init(char **startdirs, int is_all);
-int    recursive(char ***print, char **startdirs, int is_all);
+int    recursive(char ***print, char **startdirs, char *opts);
 
 #endif

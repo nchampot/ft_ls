@@ -36,7 +36,7 @@ F_STR = ft_atoi ft_itoa ft_strcat ft_strchr ft_strclr\
 		ft_striteri ft_strjoin ft_strlcat ft_strlen ft_strmap ft_strmapi\
 		ft_strncat ft_strncmp ft_strncpy ft_strnequ ft_strnew ft_strnstr\
 		ft_strrchr ft_strsplit ft_strstr ft_strsub ft_strtrim\
-		ft_tolower ft_toupper
+		ft_tolower ft_toupper ft_addstr ft_addchr
 
 SRCS = $(addprefix io/, $(addsuffix .c, $(F_IO)))
 SRCS += $(addprefix lst/, $(addsuffix .c, $(F_LST)))
