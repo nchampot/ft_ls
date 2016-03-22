@@ -14,8 +14,8 @@
 #include "libft/inc/libft.h"
 
 
-int parse_args(int ac, char **av, char ***startdirs, char **opts);
-int    recursive(char **startdirs, char *opts);
-int		opt_l(char *fd, struct stat filestat, struct group *filegroup);
+int		parse_args(int ac, char **av, char ***startdirs, char **opts);
+int		recursive(char **startdirs, char *opts);
+char	**opt_l(char **paths);
 
 #endif

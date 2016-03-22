@@ -1,4 +1,4 @@
-SRC = opt_l.c main.c recursive.c init.c parse_args.c
+SRC = opt_l.c main.c recursive.c parse_args.c
 
 OBJ = $(SRC:.c=.o)
 

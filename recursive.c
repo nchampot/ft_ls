@@ -12,33 +12,28 @@ static void	print_all(char **to_print, char *opts)
 {
 	int	i;
 	char	*buf;
-	struct stat	filestat;
-	struct group	*filegroup;
+	char	**buff;
 
+	if (ft_strchr(opts, 'l') != NULL)
+		buff = opt_l(to_print);
+	else
+		buff = to_print;
 	i = 0;
-	while (to_print[i])
+	while (buff[i])
 	{
-		buf = ft_strdup(ft_strrchr(to_print[i], '/') + 1);
-		if (!ft_strchr(opts, 'a') && (buf)[0] == '.')
-		{
-			i++;
-			free(buf);
-			continue;
-		}
-		if (ft_strchr(opts, 'l') != NULL)
-		{
-			opt_l(to_print[i], filestat, filegroup);
-			ft_putchar('\n');
-		}
+		if (!ft_strchr(opts, 'l'))
+			buf = ft_strdup(ft_strrchr(buff[i], '/') + 1);
 		else
-		{
+			buf = buff[i];
 		ft_putstr(buf);
+		if (!ft_strchr(opts, 'l'))
 			ft_putchar(' ');
-		}
+		else
+			ft_putchar('\n');
 		i++;
 	}
-		if (!ft_strchr(opts, 'l'))
-	ft_putchar('\n');
+	if (!ft_strchr(opts, 'l'))
+		ft_putchar('\n');
 }
 
 static char	**show_dir(char *path, char *opts)
@@ -61,6 +56,8 @@ static char	**show_dir(char *path, char *opts)
 	}
 	while ((dp = readdir(dirp)) != NULL)
 	{
+		if (!ft_strchr(opts, 'a') && (dp->d_name)[0] == '.')
+			continue;
 		if (path[ft_strlen(path) - 1] != '/')
 		{
 			ft_addstr(&to_print, ft_strjoin(ft_strjoin(path, "/"), dp->d_name));
