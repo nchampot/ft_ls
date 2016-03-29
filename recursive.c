@@ -31,6 +31,7 @@ static void	print_all(char **to_print, char *opts)
 		else
 			ft_putchar('\n');
 		i++;
+		free(buf);
 	}
 	if (!ft_strchr(opts, 'l'))
 		ft_putchar('\n');
