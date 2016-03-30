@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 06:00:37 by nchampot          #+#    #+#             */
-/*   Updated: 2016/03/22 04:43:29 by pghassem         ###   ########.fr       */
+/*   Updated: 2016/03/30 01:45:37 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ static	void	get_max(char **paths, int *max_nlink, int *max_size, int *max_vaniqu
 			(*max_vaniquertamere) = ft_strlen(fileuid->pw_name);
 		i++;
 	}
-	(*max_nlink)++;
-	(*max_size)++;
-	(*max_vaniquertamere)++;
+	(*max_nlink) += 2;
+	(*max_size) += 2;
+	(*max_vaniquertamere) += 2;
 }
 
 static char	*stat_path(char *path, int	max_nlink, int max_size, int max_vaniquertamere)

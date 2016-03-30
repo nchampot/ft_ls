@@ -1,4 +1,4 @@
-SRC = opt_l.c main.c recursive.c parse_args.c
+SRC = opt_l.c main.c recursive.c parse_args.c sort.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -14,7 +14,7 @@ $(NAME): $(OBJ)
 	 @echo Libft compilation ...
 	 @make -C $(LIB)
 	 @echo Generating ft_ls
-	 @$(CC) $(OBJ) $(LIB)libft.a -o $(NAME) -Wall -Wextra
+	 @$(CC) $(OBJ) $(LIB)libft.a -o $(NAME) -Wall -Wextra -Werror
 
 re : fclean all
 

@@ -14,10 +14,11 @@ static void	print_all(char **to_print, char *opts)
 	char	*buf;
 	char	**buff;
 
+	buff = lex_sort(to_print);
 	if (ft_strchr(opts, 'l') != NULL)
-		buff = opt_l(to_print);
-	else
-		buff = to_print;
+		buff = opt_l(buff);
+	if (ft_strchr(opts, 'r') != NULL)
+		buff = r_sort(buff);
 	i = 0;
 	while (buff[i])
 	{
@@ -92,8 +93,10 @@ int    recursive(char **startdirs, char *opts)
 			ft_putstr(startdirs[i]);
 			ft_putstr(":\n");
 		}
-		if ((buf = show_dir(startdirs[i], opts)) != NULL)
+		if ((buf = lex_sort(show_dir(startdirs[i], opts))) != NULL)
 		{
+			if (ft_strchr(opts, 'r') != NULL)
+				buf = r_sort(buf);
 			count++;
 			recursive(buf, opts);
 			free(buf);
