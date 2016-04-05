@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 06:00:37 by nchampot          #+#    #+#             */
-/*   Updated: 2016/03/30 01:45:37 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/04/05 12:45:03 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,26 @@ static	void	get_max(char **paths, int *max_nlink, int *max_size, int *max_vaniqu
 	(*max_nlink) += 2;
 	(*max_size) += 2;
 	(*max_vaniquertamere) += 2;
+}
+
+
+static	char	*get_total(char **paths)
+{
+	int		i;
+	struct stat	filestat;
+	int				total;
+	char	*buf;
+
+	i = 0;
+	total = 0;
+	while (paths[i])
+	{
+		if (lstat(paths[i], &filestat) < 0)
+			return (NULL);
+		total += filestat.st_blocks;
+		i++;
+	}
+	return (ft_strjoin("total ", ft_itoa(total)));
 }
 
 static char	*stat_path(char *path, int	max_nlink, int max_size, int max_vaniquertamere)
@@ -119,6 +139,7 @@ char	**opt_l(char **paths)
 	i = 0;
 	buf = (char**)malloc(sizeof(char*));
 	*buf = NULL;
+	ft_addstr(&buf, get_total(paths));
 	get_max(paths, &max_nlink, &max_size, &max_vaniquertamere);
 	while(paths[i])
 	{

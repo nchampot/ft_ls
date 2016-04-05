@@ -50,7 +50,12 @@ static char	**show_dir(char *path, char *opts)
 
 	i = 0;
 	if ((dirp = opendir(path)) == NULL)
+	{
+			ft_putstr_fd("ls: ", 2);
+			ft_putstr_fd(path, 2);
+			ft_putendl_fd(": No such file or directory", 2);
 		return (NULL);
+	}
 	to_print = (char **)malloc(sizeof(char*));
 	*to_print = NULL;
 	if (ft_strchr(opts, 'R') != NULL)

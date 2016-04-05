@@ -9,7 +9,12 @@ int main(int ac, char **av)
 	opts = malloc(1);
 	*opts = '\0';
 	*startdirs = NULL;
-	parse_args(ac, av, &startdirs, &opts);
-	recursive(startdirs, opts);
+	if (parse_args(ac, av, &startdirs, &opts) == -1)
+	{
+		ft_putendl_fd(USAGE, 2);
+		return (-1);
+	}
+	else
+		recursive(startdirs, opts);
 	return (1);
 }
