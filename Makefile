@@ -20,6 +20,8 @@ re : fclean all
 
 clean :
 	@rm -f $(OBJ)
+	@make clean -C $(LIB)
 
 fclean : clean
 	 @rm -f $(NAME)
+	 @make fclean -C $(LIB)
