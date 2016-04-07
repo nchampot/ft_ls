@@ -24,12 +24,7 @@ int	parse_args(int ac, char **av, char ***startdirs, char **opts)
 						ft_addchr(opts, av[i][j]);
 				}
 				else
-				{
-					ft_putstr_fd("ls: illegal option -- ", 2);
-					ft_putchar_fd(av[i][j], 2);
-					ft_putchar_fd('\n', 2);
-					return (-1);
-				}
+					return ((int)av[i][j]);
 				j++;
 			} 
 		}
