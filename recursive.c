@@ -50,19 +50,11 @@ static char	**show_dir(char *path, char *opts)
 
 	i = 0;
 	if ((dirp = opendir(path)) == NULL)
-	{
-			ft_putstr_fd("ls: ", 2);
-			ft_putstr_fd(path, 2);
-			ft_putendl_fd(": No such file or directory", 2);
-		return (NULL);
-	}
+		return (fd_error(path));
 	to_print = (char **)malloc(sizeof(char*));
 	*to_print = NULL;
-	if (ft_strchr(opts, 'R') != NULL)
-	{
-		ret_dirs = (char **)malloc(sizeof(char*));
-		*ret_dirs = NULL;
-	}
+	ret_dirs = (char **)malloc(sizeof(char*));
+	*ret_dirs = NULL;
 	while ((dp = readdir(dirp)) != NULL)
 	{
 		if (!ft_strchr(opts, 'a') && (dp->d_name)[0] == '.')
@@ -92,9 +84,10 @@ int    recursive(char **startdirs, char *opts)
 	static int count = 0;
 
 	i = 0;
+	count++;
 	while (startdirs[i])
 	{
-		if (count > 0)
+		if (count > 1 || (count == 1 && startdirs[1] != NULL))
 		{
 			ft_putchar('\n');
 			ft_putstr(startdirs[i]);
@@ -106,7 +99,6 @@ int    recursive(char **startdirs, char *opts)
 				buf = t_sort(buf);
 			if (ft_strchr(opts, 'r') != NULL)
 				buf = r_sort(buf);
-			count++;
 			recursive(buf, opts);
 			free(buf);
 		}
