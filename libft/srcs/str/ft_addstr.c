@@ -1,9 +1,6 @@
 #include "libft.h"
 #include <stdlib.h>
 
-/**
-*** 
-**/
 char	**ft_addstr(char ***tab, const char *s)
 {
 	int	i;

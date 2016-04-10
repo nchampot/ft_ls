@@ -21,13 +21,11 @@ CPPFLAGS = -iquote $(INC_DIR)
 OBJS_DIR = objs
 SRCS_DIR = srcs
 VPATH = srcs/io\
-		srcs/lst\
 		srcs/mem\
 		srcs/misc\
 		srcs/str
 
-F_IO = ft_putchar_fd ft_putendl_fd ft_putnbr_fd ft_putstr_fd get_next_line
-F_LST = ft_lstadd ft_lstdel ft_lstdelone ft_lstiter ft_lstmap ft_lstnew
+F_IO = ft_putchar_fd ft_putendl_fd ft_putnbr_fd ft_putstr_fd
 F_MEM = ft_bzero ft_memalloc ft_memccpy ft_memchr ft_memcmp ft_memcpy\
 		ft_memdel ft_memmove ft_memset
 F_MISC = ctypes1 ctypes2 ctypes3 ft_errno libft_ctypes
@@ -36,10 +34,9 @@ F_STR = ft_atoi ft_itoa ft_strcat ft_strchr ft_strclr\
 		ft_striteri ft_strjoin ft_strlcat ft_strlen ft_strmap ft_strmapi\
 		ft_strncat ft_strncmp ft_strncpy ft_strnequ ft_strnew ft_strnstr\
 		ft_strrchr ft_strsplit ft_strstr ft_strsub ft_strtrim\
-		ft_tolower ft_toupper ft_addstr ft_addchr
+		ft_addstr ft_addchr
 
 SRCS = $(addprefix io/, $(addsuffix .c, $(F_IO)))
-SRCS += $(addprefix lst/, $(addsuffix .c, $(F_LST)))
 SRCS += $(addprefix mem/, $(addsuffix .c, $(F_MEM)))
 SRCS += $(addprefix misc/, $(addsuffix .c, $(F_MISC)))
 SRCS += $(addprefix str/, $(addsuffix .c, $(F_STR)))

@@ -53,5 +53,6 @@ char	**r_sort(char **paths);
 char	**t_sort(char **paths);
 char	**ft_error(char *path);
 char	**fd_error(char *path);
+t_max	init_max(void);
 
 #endif

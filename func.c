@@ -26,3 +26,14 @@ int	nb_digit(int nb)
 	}
 	return (count);
 }
+
+t_max	init_max(void)
+{
+	t_max	max;
+
+	max.st_size = 0;
+	max.nlink = 0;
+	max.len_pwname = 0;
+	max.len_grname = 0;
+	return (max);
+}

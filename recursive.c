@@ -89,7 +89,8 @@ int    recursive(char **startdirs, char *opts)
 	{
 		if (count > 1 || (count == 1 && startdirs[1] != NULL))
 		{
-			ft_putchar('\n');
+			if (count > 1)
+				ft_putchar('\n');
 			ft_putstr(startdirs[i]);
 			ft_putstr(":\n");
 		}

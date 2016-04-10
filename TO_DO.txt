@@ -1,7 +1,5 @@
 General:
-	debuger le ~/ -R
 	mettre a la norme
-	en cas de multiple fd il y a un \n en trop
 	rajouter des free() un peu partout
 
 opt_l : En comparaison a un ls -l /dev

@@ -19,10 +19,7 @@ static t_max	get_max(char **paths)
 	t_max		max;
 
 	i = 0;
-	max.st_size = 0;
-	max.nlink = 0;
-	max.len_pwname = 0;
-	max.len_grname = 0;
+	max = init_max();
 	while (paths[i])
 	{
 		if (lstat(paths[i], &st.fstat) < 0)
