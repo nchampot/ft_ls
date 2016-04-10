@@ -12,50 +12,40 @@
 
 #include "ft_ls.h"
 
-static int	nb_digit(int nb)
+static t_max	get_max(char **paths)
 {
-	int	count;
-	int	buf;
-
-	count = 1;
-	buf = nb;
-	while (buf > 9)
-	{
-		buf = buf / 10;
-		count++;
-	}
-	return (count);
-}
-
-static void	get_max(char **paths, int *max_nlink, int *max_size, int *max)
-{
-	int				i;
-	struct stat		filestat;
-	struct passwd	*fileuid;
+	int		i;
+	t_stat		st;
+	t_max		max;
 
 	i = 0;
+	max.st_size = 0;
+	max.nlink = 0;
+	max.len_pwname = 0;
+	max.len_grname = 0;
 	while (paths[i])
 	{
-		if (lstat(paths[i], &filestat) < 0)
-			return ;
-		fileuid = getpwuid(filestat.st_uid);
-		if ((*max_size) < nb_digit(filestat.st_size))
-			(*max_size) = nb_digit(filestat.st_size);
-		if ((*max_nlink) < nb_digit(filestat.st_nlink))
-			(*max_nlink) = nb_digit(filestat.st_nlink);
-		if (ft_strlen(fileuid->pw_name) > (*max))
-			(*max) = ft_strlen(fileuid->pw_name);
+		if (lstat(paths[i], &st.fstat) < 0)
+			exit(-1);
+		st.fuid = getpwuid(st.fstat.st_uid);
+		st.fgrp = getgrgid(st.fstat.st_gid);
+		if (max.st_size < nb_digit(st.fstat.st_size))
+			max.st_size = nb_digit(st.fstat.st_size);
+		if (max.nlink < nb_digit(st.fstat.st_nlink))
+			max.nlink = nb_digit(st.fstat.st_nlink);
+		if (ft_strlen(st.fuid->pw_name) > max.len_pwname)
+			max.len_pwname = ft_strlen(st.fuid->pw_name);
+		if (ft_strlen(st.fgrp->gr_name) > max.len_grname)
+			max.len_grname = ft_strlen(st.fgrp->gr_name);
 		i++;
 	}
-	(*max_nlink) += 2;
-	(*max_size) += 2;
-	(*max) += 2;
+	return (max);
 }
 
 static char	*get_total(char **paths)
 {
 	int			i;
-	struct stat	filestat;
+	struct stat	fstat;
 	int			total;
 	char		*buf;
 
@@ -63,58 +53,57 @@ static char	*get_total(char **paths)
 	total = 0;
 	while (paths[i])
 	{
-		if (lstat(paths[i], &filestat) < 0)
-			return (NULL);
-		total += filestat.st_blocks;
+		if (lstat(paths[i], &fstat) < 0)
+			exit(0);
+		total += fstat.st_blocks;
 		i++;
 	}
 	return (ft_strjoin("total ", ft_itoa(total)));
 }
 
-static char	*stat_path(char *path, int max_nlink, int max_size, int max)
+static void	add_rights(char	**buf, t_stat st)
+{
+	if (S_ISDIR(st.fstat.st_mode))
+		ft_addchr(buf, 'd');
+	else if (S_ISLNK(st.fstat.st_mode))
+		ft_addchr(buf, 'l');
+	else
+		ft_addchr(buf, '-');
+	ft_addchr(buf, (st.fstat.st_mode & S_IRUSR) ? 'r' : '-');
+	ft_addchr(buf, (st.fstat.st_mode & S_IWUSR) ? 'w' : '-');
+	ft_addchr(buf, (st.fstat.st_mode & S_IXUSR) ? 'x' : '-');
+	ft_addchr(buf, (st.fstat.st_mode & S_IRGRP) ? 'r' : '-');
+	ft_addchr(buf, (st.fstat.st_mode & S_IWGRP) ? 'w' : '-');
+	ft_addchr(buf, (st.fstat.st_mode & S_IXGRP) ? 'x' : '-');
+	ft_addchr(buf, (st.fstat.st_mode & S_IROTH) ? 'r' : '-');
+	ft_addchr(buf, (st.fstat.st_mode & S_IWOTH) ? 'w' : '-');
+	ft_addchr(buf, (st.fstat.st_mode & S_IXOTH) ? 'x' : '-');
+}
+
+static char	*stat_path(char *path, t_max max)
 {
 	char	*buf;
-	int		i;
-	t_stat	a;
+	t_stat	st;
 
 	buf = ft_strnew(1);
-	if (lstat(path, &a.fstat) < 0)
+	if (lstat(path, &st.fstat) < 0)
 		return (NULL);
-	a.fuid = getpwuid(a.fstat.st_uid);
-	a.gid = a.fstat.st_gid;
-	a.fgrp = getgrgid(a.gid);
-	if (S_ISDIR(a.fstat.st_mode))
-		ft_addchr(&buf, 'd');
-	else if (S_ISLNK(a.fstat.st_mode))
-		ft_addchr(&buf, 'l');
-	else
-		ft_addchr(&buf, '-');
-	ft_addchr(&buf, (a.fstat.st_mode & S_IRUSR) ? 'r' : '-');
-	ft_addchr(&buf, (a.fstat.st_mode & S_IWUSR) ? 'w' : '-');
-	ft_addchr(&buf, (a.fstat.st_mode & S_IXUSR) ? 'x' : '-');
-	ft_addchr(&buf, (a.fstat.st_mode & S_IRGRP) ? 'r' : '-');
-	ft_addchr(&buf, (a.fstat.st_mode & S_IWGRP) ? 'w' : '-');
-	ft_addchr(&buf, (a.fstat.st_mode & S_IXGRP) ? 'x' : '-');
-	ft_addchr(&buf, (a.fstat.st_mode & S_IROTH) ? 'r' : '-');
-	ft_addchr(&buf, (a.fstat.st_mode & S_IWOTH) ? 'w' : '-');
-	ft_addchr(&buf, (a.fstat.st_mode & S_IXOTH) ? 'x' : '-');
-	i = 0;
-	while (max_nlink - nb_digit(a.fstat.st_nlink) > i++)
-		ft_addchr(&buf, ' ');
-	buf = ft_strjoin(buf, ft_itoa(a.fstat.st_nlink));
+	st.fuid = getpwuid(st.fstat.st_uid);
+	st.gid = st.fstat.st_gid;
+	st.fgrp = getgrgid(st.gid);
+	add_rights(&buf, st);
+	add_spaces(&buf, max.nlink - nb_digit(st.fstat.st_nlink) + 2);
+	buf = ft_strjoin(buf, ft_itoa(st.fstat.st_nlink));
 	ft_addchr(&buf, ' ');
-	buf = ft_strjoin(buf, a.fuid->pw_name);
-	i = 0;
-	while (max - ft_strlen(a.fuid->pw_name) > i++)
-		ft_addchr(&buf, ' ');
-	buf = ft_strjoin(buf, a.fgrp->gr_name);
-	i = 0;
-	while (max_size - nb_digit(a.fstat.st_size) > i++)
-		ft_addchr(&buf, ' ');
-	buf = ft_strjoin(buf, ft_itoa(a.fstat.st_size));
+	buf = ft_strjoin(buf, st.fuid->pw_name);
+	add_spaces(&buf, max.len_pwname - ft_strlen(st.fuid->pw_name) + 2);
+	buf = ft_strjoin(buf, st.fgrp->gr_name);
+	add_spaces(&buf, max.len_grname - ft_strlen(st.fgrp->gr_name));
+	add_spaces(&buf, max.st_size - nb_digit(st.fstat.st_size) + 2);
+	buf = ft_strjoin(buf, ft_itoa(st.fstat.st_size));
 	ft_addchr(&buf, ' ');
-	a.mtime = ctime(&(a.fstat.st_mtimespec.tv_sec));
-	buf = ft_strjoin(buf, ft_strsub(a.mtime, 4, 12));
+	st.mtime = ctime(&(st.fstat.st_mtimespec.tv_sec));
+	buf = ft_strjoin(buf, ft_strsub(st.mtime, 4, 12));
 	ft_addchr(&buf, ' ');
 	buf = ft_strjoin(buf, ft_strrchr(path, '/') + 1);
 	return (buf);
@@ -123,22 +112,17 @@ static char	*stat_path(char *path, int max_nlink, int max_size, int max)
 char		**opt_l(char **paths)
 {
 	char	**buf;
-	int		max_nlink;
-	int		max_size;
-	int		max;
-	int		i;
+	t_max	max;
+	int	i;
 
-	max_nlink = 0;
-	max_size = 0;
-	max = 0;
 	i = 0;
+	max = get_max(paths);
 	buf = (char**)malloc(sizeof(char*));
 	*buf = NULL;
 	ft_addstr(&buf, get_total(paths));
-	get_max(paths, &max_nlink, &max_size, &max);
 	while (paths[i])
 	{
-		ft_addstr(&buf, stat_path(paths[i], max_nlink, max_size, max));
+		ft_addstr(&buf, stat_path(paths[i], max));
 		i++;
 	}
 	return (buf);

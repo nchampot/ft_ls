@@ -12,36 +12,56 @@
 
 #include "ft_ls.h"
 
+static void	add_dots(char **to_print, char ***tab)
+{
+	int	i;
+
+	i = 0;
+	while (to_print[i])
+	{
+		if ((ft_strrchr(to_print[i], '/'))[1] == '.')
+			ft_addstr(tab, to_print[i]);
+		i++;
+	}
+}
+
+static void	add_uppercases(char **to_print, char ***tab)
+{
+	int	i;
+
+	i = 0;
+	while (to_print[i])
+	{
+		if (ft_isupper((ft_strrchr(to_print[i], '/'))[1]) && (ft_strrchr(to_print[i], '/'))[1] != '.')
+			ft_addstr(tab, to_print[i]);
+		i++;
+	}
+}
+
+static void	add_rest(char **to_print, char ***tab)
+{
+	int	i;
+
+	i = 0;
+	while (to_print[i])
+	{
+		if (!ft_isupper((ft_strrchr(to_print[i], '/'))[1]) && (ft_strrchr(to_print[i], '/'))[1] != '.')
+			ft_addstr(tab, to_print[i]);
+		i++;
+	}
+}
+
 char		**lex_sort(char **to_print)
 {
-	int		i;
 	char	**tab;
 
 	if (to_print == NULL)
 		return (NULL);
 	tab = (char**)malloc(sizeof(char*));
 	*tab = NULL;
-	i = 0;
-	while (to_print[i])
-	{
-		if ((ft_strrchr(to_print[i], '/'))[1] == '.')
-			ft_addstr(&tab, to_print[i]);
-		i++;
-	}
-	i = 0;
-	while (to_print[i])
-	{
-		if (ft_isupper((ft_strrchr(to_print[i], '/'))[1]) && (ft_strrchr(to_print[i], '/'))[1] != '.')
-			ft_addstr(&tab, to_print[i]);
-		i++;
-	}
-	i = 0;
-	while (to_print[i])
-	{
-		if (!ft_isupper((ft_strrchr(to_print[i], '/'))[1]) && (ft_strrchr(to_print[i], '/'))[1] != '.')
-			ft_addstr(&tab, to_print[i]);
-		i++;
-	}
+	add_dots(to_print, &tab);
+	add_uppercases(to_print, &tab);
+	add_rest(to_print, &tab);
 	return (tab);
 }
 
