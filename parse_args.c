@@ -17,7 +17,26 @@ static int	is_opt(char c)
 	return ((c == 'a') || (c == 'R') || (c == 'l') || (c == 't') || (c == 'r'));
 }
 
-int			parse_args(int ac, char **av, char ***startdirs, char **opts)
+static int	check_opts(char *s, char **opts)
+{
+	int	i;
+
+	i = 1;
+	while (s[i])
+	{
+		if (is_opt(s[i]))
+		{
+			if (!ft_strchr(*opts, s[i]))
+				ft_addchr(opts, s[i]);
+		}
+		else
+			return ((int)s[i]);
+		i++;
+	}
+	return (1);
+}
+
+int		parse_args(int ac, char **av, char ***startdirs, char **opts)
 {
 	int	i;
 
@@ -25,28 +44,15 @@ int			parse_args(int ac, char **av, char ***startdirs, char **opts)
 	while (av[i])
 	{
 		if (**startdirs == '\0' && av[i][0] == '-')
-			parse(i, 1, av, opts);
+		{
+			if (check_opts(av[i], opts) != 1)
+				return (-1);
+		}
 		else if (av[i][0] != '-')
 			ft_addstr(startdirs, av[i]);
 		i++;
 	}
 	if (**startdirs == '\0')
 		ft_addstr(startdirs, ".");
-	return (1);
-}
-
-int			parse(int i, int j, char **av, char **opts)
-{
-	while (av[i][j])
-	{
-		if (is_opt(av[i][j]))
-		{
-			if (!ft_strchr(*opts, av[i][j]))
-				ft_addchr(opts, av[i][j]);
-		}
-		else
-			return ((int)av[i][j]);
-		j++;
-	}
 	return (1);
 }
