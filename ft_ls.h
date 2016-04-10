@@ -41,7 +41,6 @@ char	**lex_sort(char **paths);
 char	**r_sort(char **paths);
 char	**t_sort(char **paths);
 char	**ft_error(char *path);
-int		parse(int i, int j, char **av, char **opts);
 char	**fd_error(char *path);
 
 #endif
