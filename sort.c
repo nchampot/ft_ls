@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/29 20:54:45 by nchampot          #+#    #+#             */
-/*   Updated: 2016/04/07 17:56:20 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/04/11 15:50:46 by edelbe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static void	add_uppercases(char **to_print, char ***tab)
 	i = 0;
 	while (to_print[i])
 	{
-		if (ft_isupper((ft_strrchr(to_print[i], '/'))[1]) && (ft_strrchr(to_print[i], '/'))[1] != '.')
+		if (ft_isupper((ft_strrchr(to_print[i], '/'))[1])
+				&& (ft_strrchr(to_print[i], '/'))[1] != '.')
 			ft_addstr(tab, to_print[i]);
 		i++;
 	}
@@ -45,7 +46,8 @@ static void	add_rest(char **to_print, char ***tab)
 	i = 0;
 	while (to_print[i])
 	{
-		if (!ft_isupper((ft_strrchr(to_print[i], '/'))[1]) && (ft_strrchr(to_print[i], '/'))[1] != '.')
+		if (!ft_isupper((ft_strrchr(to_print[i], '/'))[1])
+				&& (ft_strrchr(to_print[i], '/'))[1] != '.')
 			ft_addstr(tab, to_print[i]);
 		i++;
 	}
