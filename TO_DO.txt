@@ -1,8 +1,0 @@
-General:
-	mettre a la norme
-	rajouter des free() un peu partout
-
-opt_l : En comparaison a un ls -l /dev
-	rajouter 'c' et 't' en type de fichier en plus de 'd' et 'l'
-	rajouter la taille des blocks suivit d'une virgule
-	aligner les tailles

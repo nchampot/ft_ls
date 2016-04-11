@@ -1,26 +1,22 @@
-//
-//  recursive.c
-//  ft_ls
-//
-//  Created by Noe Champot on 2/17/16.
-//  Copyright © 2016 Noe Champot. All rights reserved.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   recursive.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/04/11 18:43:32 by nchampot          #+#    #+#             */
+/*   Updated: 2016/04/11 19:59:34 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void	print_all(char **to_print, char *opts)
+static void	printer(char **buff, char *opts)
 {
-	int	i;
+	int		i;
 	char	*buf;
-	char	**buff;
 
-	buff = lex_sort(to_print);
-	if (ft_strchr(opts, 't') != NULL)
-		buff = t_sort(buff);
-	if (ft_strchr(opts, 'r') != NULL)
-		buff = r_sort(buff);
-	if (ft_strchr(opts, 'l') != NULL)
-		buff = opt_l(buff);
 	i = 0;
 	while (buff[i])
 	{
@@ -36,52 +32,75 @@ static void	print_all(char **to_print, char *opts)
 		i++;
 		free(buf);
 	}
+}
+
+static void	print_all(char **paths, char *opts)
+{
+	int		i;
+	char	**buff;
+
+	buff = lex_sort(paths);
+	if (ft_strchr(opts, 't') != NULL)
+		buff = t_sort(buff);
+	if (ft_strchr(opts, 'r') != NULL)
+		buff = r_sort(buff);
+	if (ft_strchr(opts, 'l') != NULL)
+		buff = opt_l(buff);
+	i = 0;
+	printer(buff, opts);
 	if (!ft_strchr(opts, 'l'))
 		ft_putchar('\n');
 }
 
-static char	**show_dir(char *path, char *opts)
+static int	add_path(char ***p, char ***ret, char *opts, char *path)
 {
-	DIR  *dirp;
-	struct dirent   *dp;
-	int i;
-	char	**to_print;
-	char	**ret_dirs;
+	t_dir	d;
 
-	i = 0;
-	if ((dirp = opendir(path)) == NULL)
+	if ((d.dirp = opendir(path)) == NULL)
 		return (fd_error(path));
-	to_print = (char **)malloc(sizeof(char*));
-	*to_print = NULL;
-	ret_dirs = (char **)malloc(sizeof(char*));
-	*ret_dirs = NULL;
-	while ((dp = readdir(dirp)) != NULL)
+	while ((d.dp = readdir(d.dirp)) != NULL)
 	{
-		if (!ft_strchr(opts, 'a') && (dp->d_name)[0] == '.')
+		if (!ft_strchr(opts, 'a') && (d.dp->d_name)[0] == '.')
 			continue;
 		if (path[ft_strlen(path) - 1] != '/')
 		{
-			ft_addstr(&to_print, ft_strjoin(ft_strjoin(path, "/"), dp->d_name));
-			if (dp->d_type == DT_DIR && ft_strchr(opts, 'R') != NULL && ft_strcmp(dp->d_name, ".") && ft_strcmp(dp->d_name, ".."))
-				ft_addstr(&ret_dirs, ft_strjoin(ft_strjoin(path, "/"), dp->d_name));
+			ft_addstr(p, ft_strjoin(ft_strjoin(path, "/"), d.dp->d_name));
+			if (d.dp->d_type == DT_DIR && ft_strchr(opts, 'R') != NULL
+			&& ft_strcmp(d.dp->d_name, ".") && ft_strcmp(d.dp->d_name, ".."))
+				ft_addstr(ret, ft_strjoin(ft_strjoin(path, "/"), d.dp->d_name));
 		}
 		else
 		{
-			ft_addstr(&to_print, ft_strjoin(path, dp->d_name));
-			if (dp->d_type == DT_DIR && ft_strchr(opts, 'R') != NULL && ft_strcmp(dp->d_name, ".") && ft_strcmp(dp->d_name, ".."))
-				ft_addstr(&ret_dirs, ft_strjoin(path, dp->d_name));
+			ft_addstr(p, ft_strjoin(path, d.dp->d_name));
+			if (d.dp->d_type == DT_DIR && ft_strchr(opts, 'R') != NULL
+			&& ft_strcmp(d.dp->d_name, ".") && ft_strcmp(d.dp->d_name, ".."))
+				ft_addstr(ret, ft_strjoin(path, d.dp->d_name));
 		}
 	}
-	(void)closedir(dirp);
-	print_all(to_print, opts);
-	return (ret_dirs);
+	(void)closedir(d.dirp);
+	return (1);
 }
 
-int    recursive(char **startdirs, char *opts)
+static char	**show_dir(char *path, char *opts)
 {
-	int i;
-	char	**buf;
-	static int count = 0;
+	char			**paths;
+	char			**ret;
+
+	paths = (char **)malloc(sizeof(char*));
+	*paths = NULL;
+	ret = (char **)malloc(sizeof(char*));
+	*ret = NULL;
+	if (!add_path(&paths, &ret, opts, path))
+		return (NULL);
+	print_all(paths, opts);
+	return (ret);
+}
+
+int			recursive(char **startdirs, char *opts)
+{
+	int			i;
+	char		**buf;
+	static int	count = 0;
 
 	i = 0;
 	count++;
@@ -91,8 +110,7 @@ int    recursive(char **startdirs, char *opts)
 		{
 			if (count > 1)
 				ft_putchar('\n');
-			ft_putstr(startdirs[i]);
-			ft_putstr(":\n");
+			ft_putstr(ft_strjoin(startdirs[i], ":\n"));
 		}
 		if ((buf = lex_sort(show_dir(startdirs[i], opts))) != NULL)
 		{
@@ -101,7 +119,6 @@ int    recursive(char **startdirs, char *opts)
 			if (ft_strchr(opts, 'r') != NULL)
 				buf = r_sort(buf);
 			recursive(buf, opts);
-			free(buf);
 		}
 		i++;
 	}
