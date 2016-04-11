@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 06:00:37 by nchampot          #+#    #+#             */
-/*   Updated: 2016/04/07 20:16:37 by pghassem         ###   ########.fr       */
+/*   Updated: 2016/04/11 18:33:32 by edelbe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_max	get_max(char **paths)
 {
-	int		i;
+	int			i;
 	t_stat		st;
 	t_max		max;
 
@@ -39,7 +39,7 @@ static t_max	get_max(char **paths)
 	return (max);
 }
 
-static char	*get_total(char **paths)
+static char		*get_total(char **paths)
 {
 	int			i;
 	struct stat	fstat;
@@ -58,12 +58,18 @@ static char	*get_total(char **paths)
 	return (ft_strjoin("total ", ft_itoa(total)));
 }
 
-static void	add_rights(char	**buf, t_stat st)
+static void		add_rights(char **buf, t_stat st)
 {
 	if (S_ISDIR(st.fstat.st_mode))
 		ft_addchr(buf, 'd');
 	else if (S_ISLNK(st.fstat.st_mode))
 		ft_addchr(buf, 'l');
+	else if (S_ISCHR(st.fstat.st_mode))
+		ft_addchr(buf, 'c');
+	else if (S_ISBLK(st.fstat.st_mode))
+		ft_addchr(buf, 'b');
+	else if (S_ISSOCK(st.fstat.st_mode))
+		ft_addchr(buf, 's');
 	else
 		ft_addchr(buf, '-');
 	ft_addchr(buf, (st.fstat.st_mode & S_IRUSR) ? 'r' : '-');
@@ -77,10 +83,10 @@ static void	add_rights(char	**buf, t_stat st)
 	ft_addchr(buf, (st.fstat.st_mode & S_IXOTH) ? 'x' : '-');
 }
 
-static char	*stat_path(char *path, t_max max)
+static char		*stat_path(char *path, t_max max)
 {
-	char	*buf;
-	t_stat	st;
+	char		*buf;
+	t_stat		st;
 
 	buf = ft_strnew(1);
 	if (lstat(path, &st.fstat) < 0)
@@ -106,11 +112,11 @@ static char	*stat_path(char *path, t_max max)
 	return (buf);
 }
 
-char		**opt_l(char **paths)
+char			**opt_l(char **paths)
 {
-	char	**buf;
-	t_max	max;
-	int	i;
+	char		**buf;
+	t_max		max;
+	int			i;
 
 	i = 0;
 	max = get_max(paths);

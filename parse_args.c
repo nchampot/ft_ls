@@ -6,7 +6,7 @@
 /*   By: pghassem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 18:58:16 by pghassem          #+#    #+#             */
-/*   Updated: 2016/04/07 19:19:34 by pghassem         ###   ########.fr       */
+/*   Updated: 2016/04/11 15:49:07 by edelbe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	is_opt(char c)
 
 static int	check_opts(char *s, char **opts)
 {
-	int	i;
+	int		i;
 
 	i = 1;
 	while (s[i])
@@ -36,9 +36,9 @@ static int	check_opts(char *s, char **opts)
 	return (1);
 }
 
-int		parse_args(int ac, char **av, char ***startdirs, char **opts)
+int			parse_args(int ac, char **av, char ***startdirs, char **opts)
 {
-	int	i;
+	int		i;
 
 	i = 1;
 	while (av[i])

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   func.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edelbe <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/04/11 15:40:09 by edelbe            #+#    #+#             */
+/*   Updated: 2016/04/11 15:42:48 by edelbe           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
-void	add_spaces(char	**buf, int nb_space)
+void		add_spaces(char **buf, int nb_space)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (i < nb_space)
@@ -12,10 +24,10 @@ void	add_spaces(char	**buf, int nb_space)
 	}
 }
 
-int	nb_digit(int nb)
+int			nb_digit(int nb)
 {
-	int	count;
-	int	buf;
+	int		count;
+	int		buf;
 
 	count = 1;
 	buf = nb;
@@ -27,7 +39,7 @@ int	nb_digit(int nb)
 	return (count);
 }
 
-t_max	init_max(void)
+t_max		init_max(void)
 {
 	t_max	max;
 
