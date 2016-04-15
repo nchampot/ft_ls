@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:30:41 by nchampot          #+#    #+#             */
-/*   Updated: 2016/04/15 17:15:08 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/04/15 20:21:22 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct		s_max
 	int				nlink;
 	int				len_pwname;
 	int				len_grname;
-	int				minor_size;
-	int				major_size;
+	int				min_size;
+	int				maj_size;
 }					t_max;
 
 typedef struct		s_dir
@@ -52,6 +52,8 @@ typedef struct		s_dir
 	DIR				*dirp;
 }					t_dir;
 
+t_max				get_max(char **paths);
+char				*get_total(char **paths);
 int					parse_args(int ac, char **av, char ***a, char **opts);
 int					recursive(char **startdirs, char *opts);
 char				**opt_l(char **paths);

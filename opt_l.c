@@ -6,64 +6,11 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 06:00:37 by nchampot          #+#    #+#             */
-/*   Updated: 2016/04/15 18:48:07 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/04/15 20:24:09 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-static t_max	get_max(char **paths)
-{
-	int			i;
-	t_stat		st;
-	t_max		max;
-
-	i = 0;
-	max = init_max();
-	while (paths[i])
-	{
-		if (lstat(paths[i], &st.fstat) < 0)
-			exit(-1);
-		st.fuid = getpwuid(st.fstat.st_uid);
-		st.fgrp = getgrgid(st.fstat.st_gid);
-		if (max.st_size < nb_digit(st.fstat.st_size))
-			max.st_size = nb_digit(st.fstat.st_size);
-	if (ft_strlen(paths[i]) > 3 && ft_strcmp(ft_strsub(paths[i], 0, 4), "/dev") == 0)
-		{
-			if (max.major_size < nb_digit(major(st.fstat.st_rdev)))
-				max.major_size = nb_digit(major(st.fstat.st_rdev));
-			if (max.minor_size < nb_digit(minor(st.fstat.st_rdev)))
-				max.minor_size = nb_digit(minor(st.fstat.st_rdev));
-		}
-		if (max.nlink < nb_digit(st.fstat.st_nlink))
-			max.nlink = nb_digit(st.fstat.st_nlink);
-		if (ft_strlen(st.fuid->pw_name) > max.len_pwname)
-			max.len_pwname = ft_strlen(st.fuid->pw_name);
-		if (ft_strlen(st.fgrp->gr_name) > max.len_grname)
-			max.len_grname = ft_strlen(st.fgrp->gr_name);
-		i++;
-	}
-	return (max);
-}
-
-static char		*get_total(char **paths)
-{
-	int			i;
-	struct stat	fstat;
-	int			total;
-	char		*buf;
-
-	i = 0;
-	total = 0;
-	while (paths[i])
-	{
-		if (lstat(paths[i], &fstat) < 0)
-			exit(0);
-		total += fstat.st_blocks;
-		i++;
-	}
-	return (ft_strjoin("total ", ft_itoa(total)));
-}
 
 static void		add_rights(char **buf, t_stat st)
 {
@@ -96,13 +43,15 @@ static void		add_size(char **buf, char *path, struct stat fstat, t_max max)
 {
 	if (ft_strlen(path) > 3 && ft_strcmp(ft_strsub(path, 0, 4), "/dev") == 0)
 	{
-		add_spaces(buf, max.major_size - nb_digit(major(fstat.st_rdev)) + 3);
 		if (S_ISBLK(fstat.st_mode) || S_ISCHR(fstat.st_mode))
 		{
+			add_spaces(buf, max.maj_size - nb_digit(major(fstat.st_rdev)) + 3);
 			*buf = ft_strjoin(*buf, ft_itoa(major(fstat.st_rdev)));
 			ft_addchr(buf, ',');
 		}
-		add_spaces(buf, max.minor_size - nb_digit(minor(fstat.st_rdev)) + 1);
+		else
+			add_spaces(buf, max.maj_size + 4);
+		add_spaces(buf, max.min_size - nb_digit(minor(fstat.st_rdev)) + 1);
 		*buf = ft_strjoin(*buf, ft_itoa(minor(fstat.st_rdev)));
 	}
 	else
@@ -112,6 +61,22 @@ static void		add_size(char **buf, char *path, struct stat fstat, t_max max)
 	}
 	ft_addchr(buf, ' ');
 }
+
+static void		show_link(char **buf, char *path)
+{
+	char	*buff;
+
+	buff = ft_strnew(3000);
+	if (**buf == 'l')
+	{
+		if (readlink(path, buff, 3000) >= 0)
+		{
+			*buf = ft_strjoin(*buf, " -> ");
+			*buf = ft_strjoin(*buf, buff);
+		}
+	}
+}
+
 static char		*stat_path(char *path, t_max max)
 {
 	char		*buf;
@@ -136,6 +101,7 @@ static char		*stat_path(char *path, t_max max)
 	buf = ft_strjoin(buf, ft_strsub(st.mtime, 4, 12));
 	ft_addchr(&buf, ' ');
 	buf = ft_strjoin(buf, ft_strrchr(path, '/') + 1);
+	show_link(&buf, path);
 	return (buf);
 }
 
