@@ -6,7 +6,7 @@
 /*   By: edelbe <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/11 15:40:09 by edelbe            #+#    #+#             */
-/*   Updated: 2016/04/15 17:57:13 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/04/15 20:25:14 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_max		init_max(void)
 	max.nlink = 0;
 	max.len_pwname = 0;
 	max.len_grname = 0;
-	max.minor_size = 0;
-	max.major_size = 0;
+	max.min_size = 0;
+	max.maj_size = 0;
 	return (max);
 }
