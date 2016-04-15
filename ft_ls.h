@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:30:41 by nchampot          #+#    #+#             */
-/*   Updated: 2016/04/11 20:09:09 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/04/15 17:15:08 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 # include <unistd.h>
 # include <sys/xattr.h>
 # include <sys/stat.h>
+# include <sys/types.h>
 # include <dirent.h>
 # include <time.h>
 # include <grp.h>
 # include <pwd.h>
 # include "libft/inc/libft.h"
+# include <errno.h>
 
 # define USAGE "usage: ft_ls [-Ralrt] [File...]"
 
@@ -40,7 +42,8 @@ typedef struct		s_max
 	int				nlink;
 	int				len_pwname;
 	int				len_grname;
-
+	int				minor_size;
+	int				major_size;
 }					t_max;
 
 typedef struct		s_dir

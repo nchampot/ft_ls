@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 06:00:37 by nchampot          #+#    #+#             */
-/*   Updated: 2016/04/11 18:33:32 by edelbe           ###   ########.fr       */
+/*   Updated: 2016/04/15 18:48:07 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ static t_max	get_max(char **paths)
 		st.fgrp = getgrgid(st.fstat.st_gid);
 		if (max.st_size < nb_digit(st.fstat.st_size))
 			max.st_size = nb_digit(st.fstat.st_size);
+	if (ft_strlen(paths[i]) > 3 && ft_strcmp(ft_strsub(paths[i], 0, 4), "/dev") == 0)
+		{
+			if (max.major_size < nb_digit(major(st.fstat.st_rdev)))
+				max.major_size = nb_digit(major(st.fstat.st_rdev));
+			if (max.minor_size < nb_digit(minor(st.fstat.st_rdev)))
+				max.minor_size = nb_digit(minor(st.fstat.st_rdev));
+		}
 		if (max.nlink < nb_digit(st.fstat.st_nlink))
 			max.nlink = nb_digit(st.fstat.st_nlink);
 		if (ft_strlen(st.fuid->pw_name) > max.len_pwname)
@@ -70,6 +77,8 @@ static void		add_rights(char **buf, t_stat st)
 		ft_addchr(buf, 'b');
 	else if (S_ISSOCK(st.fstat.st_mode))
 		ft_addchr(buf, 's');
+	else if (S_ISFIFO(st.fstat.st_mode))
+		ft_addchr(buf, 'p');
 	else
 		ft_addchr(buf, '-');
 	ft_addchr(buf, (st.fstat.st_mode & S_IRUSR) ? 'r' : '-');
@@ -83,6 +92,26 @@ static void		add_rights(char **buf, t_stat st)
 	ft_addchr(buf, (st.fstat.st_mode & S_IXOTH) ? 'x' : '-');
 }
 
+static void		add_size(char **buf, char *path, struct stat fstat, t_max max)
+{
+	if (ft_strlen(path) > 3 && ft_strcmp(ft_strsub(path, 0, 4), "/dev") == 0)
+	{
+		add_spaces(buf, max.major_size - nb_digit(major(fstat.st_rdev)) + 3);
+		if (S_ISBLK(fstat.st_mode) || S_ISCHR(fstat.st_mode))
+		{
+			*buf = ft_strjoin(*buf, ft_itoa(major(fstat.st_rdev)));
+			ft_addchr(buf, ',');
+		}
+		add_spaces(buf, max.minor_size - nb_digit(minor(fstat.st_rdev)) + 1);
+		*buf = ft_strjoin(*buf, ft_itoa(minor(fstat.st_rdev)));
+	}
+	else
+	{
+		add_spaces(buf, max.st_size - nb_digit(fstat.st_size) + 2);
+		*buf = ft_strjoin(*buf, ft_itoa(fstat.st_size));
+	}
+	ft_addchr(buf, ' ');
+}
 static char		*stat_path(char *path, t_max max)
 {
 	char		*buf;
@@ -102,9 +131,7 @@ static char		*stat_path(char *path, t_max max)
 	add_spaces(&buf, max.len_pwname - ft_strlen(st.fuid->pw_name) + 2);
 	buf = ft_strjoin(buf, st.fgrp->gr_name);
 	add_spaces(&buf, max.len_grname - ft_strlen(st.fgrp->gr_name));
-	add_spaces(&buf, max.st_size - nb_digit(st.fstat.st_size) + 2);
-	buf = ft_strjoin(buf, ft_itoa(st.fstat.st_size));
-	ft_addchr(&buf, ' ');
+	add_size(&buf, path, st.fstat, max);
 	st.mtime = ctime(&(st.fstat.st_mtimespec.tv_sec));
 	buf = ft_strjoin(buf, ft_strsub(st.mtime, 4, 12));
 	ft_addchr(&buf, ' ');
@@ -122,7 +149,8 @@ char			**opt_l(char **paths)
 	max = get_max(paths);
 	buf = (char**)malloc(sizeof(char*));
 	*buf = NULL;
-	ft_addstr(&buf, get_total(paths));
+	if (*paths)
+		ft_addstr(&buf, get_total(paths));
 	while (paths[i])
 	{
 		ft_addstr(&buf, stat_path(paths[i], max));
