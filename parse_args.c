@@ -17,6 +17,15 @@ static int	is_opt(char c)
 	return ((c == 'a') || (c == 'R') || (c == 'l') || (c == 't') || (c == 'r'));
 }
 
+static int	is_dir(char *dir)
+{
+	DIR	*dirp;
+	
+	if ((dirp = opendir(dir)) == NULL)
+		return (fd_error(dir));
+	return (1);
+}
+
 static int	check_opts(char *s, char **opts)
 {
 	int		i;
@@ -48,7 +57,7 @@ int			parse_args(int ac, char **av, char ***startdirs, char **opts)
 			if (check_opts(av[i], opts) != 1)
 				return (-1);
 		}
-		else if (av[i][0] != '-')
+		else if (av[i][0] != '-' && is_dir(av[i]))
 			ft_addstr(startdirs, av[i]);
 		i++;
 	}

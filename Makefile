@@ -1,4 +1,4 @@
-SRC = func.c opt_l.c main.c recursive.c parse_args.c sort.c errors.c t_sort.c get_stat.c
+SRC = func.c opt_l.c main.c recursive.c parse_args.c sort.c errors.c t_sort.c get_stat.c l_sort.c
 
 OBJ = $(SRC:.c=.o)
 

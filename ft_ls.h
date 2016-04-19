@@ -62,6 +62,7 @@ int					nb_digit(int nb);
 char				**lex_sort(char **paths);
 char				**r_sort(char **paths);
 char				**t_sort(char **paths);
+char				**l_sort(char **paths);
 char				**ft_error(char *path);
 int					fd_error(char *path);
 t_max				init_max(void);

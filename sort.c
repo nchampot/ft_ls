@@ -56,14 +56,15 @@ static void	add_rest(char **to_print, char ***tab)
 char		**lex_sort(char **to_print)
 {
 	char	**tab;
+	char	**buff;
 
 	if (to_print == NULL)
 		return (NULL);
 	tab = (char**)malloc(sizeof(char*));
 	*tab = NULL;
-	add_dots(to_print, &tab);
-	add_uppercases(to_print, &tab);
-	add_rest(to_print, &tab);
+	buff = l_sort(to_print);
+	add_uppercases(buff, &tab);
+	add_rest(buff, &tab);
 	return (tab);
 }
 
