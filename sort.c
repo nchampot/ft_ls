@@ -19,7 +19,42 @@ static void	add_dots(char **paths, char ***tab)
 	i = 0;
 	while (paths[i])
 	{
-		if ((ft_strrchr(paths[i], '/'))[1] == '.')
+		if (ft_strcmp(ft_strrchr(paths[i], '/') + 1, ".") == 0 ||
+			ft_strcmp(ft_strrchr(paths[i], '/') + 1, "..") == 0)
+			ft_addstr(tab, paths[i]);
+		i++;
+	}
+	i = 0;
+	while (paths[i])
+	{
+		if (ft_strcmp(ft_strrchr(paths[i], '/') + 1, ".") == 0||
+			ft_strcmp(ft_strrchr(paths[i], '/') + 1, "..") == 0)
+		{
+			i++;
+			continue;
+		}
+		else if ((ft_strrchr(paths[i], '/'))[1] == '.' &&
+			ft_isupper((ft_strrchr(paths[i], '/'))[2]))
+			ft_addstr(tab, paths[i]);
+		i++;
+	}
+	i = 0;
+	while (paths[i])
+	{
+		if (ft_strcmp(ft_strrchr(paths[i], '/') + 1, ".") == 0||
+			ft_strcmp(ft_strrchr(paths[i], '/') + 1, "..") == 0)
+		{
+			i++;
+			continue;
+		}
+		else if ((ft_strrchr(paths[i], '/'))[1] == '.' &&
+			ft_isupper((ft_strrchr(paths[i], '/'))[2]))
+		{
+			i++;
+			continue;
+		}
+		else if ((ft_strrchr(paths[i], '/'))[1] == '.' &&
+			!ft_isupper((ft_strrchr(paths[i], '/'))[2]))
 			ft_addstr(tab, paths[i]);
 		i++;
 	}

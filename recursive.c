@@ -52,9 +52,33 @@ static void	print_all(char **paths, char *opts)
 		ft_putchar('\n');
 }
 
+static int	is_homedir(char *path)
+{
+	struct stat	fstat;
+	struct passwd	*fuid;
+	int		ret;
+
+	if (lstat(path, &fstat) < 0)
+		return (0);
+	fuid = getpwuid(fstat.st_uid);
+	if (path[ft_strlen(path) - 1] == '/')
+		ret = 2;
+	else
+		ret = 1;
+	if (ft_strlen(path) != ft_strlen(fuid->pw_name) + 6 + ret)
+		return (0);
+	if (ft_strcmp(ft_strsub(path, 0, 7), "/Users/") != 0) 
+		return (0);
+	if (ft_strcmp(ft_strsub(path, 7, ft_strlen(fuid->pw_name)), fuid->pw_name) != 0)
+		return (0);
+	return (ret);
+	
+}
+
 static int	add_path(char ***p, char ***ret, char *opts, char *path)
 {
 	t_dir	d;
+	int	is_hdir;
 
 	if ((d.dirp = opendir(path)) == NULL)
 		return (fd_error(path));
@@ -62,7 +86,15 @@ static int	add_path(char ***p, char ***ret, char *opts, char *path)
 	{
 		if (!ft_strchr(opts, 'a') && (d.dp->d_name)[0] == '.')
 			continue;
-		if (path[ft_strlen(path) - 1] != '/')
+
+		if ((is_hdir = is_homedir(path)) == 1)
+		{
+			ft_addstr(p, ft_strjoin(ft_strjoin(path, "//"), d.dp->d_name));
+			if (d.dp->d_type == DT_DIR && ft_strchr(opts, 'R') != NULL
+			&& ft_strcmp(d.dp->d_name, ".") && ft_strcmp(d.dp->d_name, ".."))
+				ft_addstr(ret, ft_strjoin(ft_strjoin(path, "/"), d.dp->d_name));
+		}
+		else if (path[ft_strlen(path) - 1] != '/' || is_hdir == 2)
 		{
 			ft_addstr(p, ft_strjoin(ft_strjoin(path, "/"), d.dp->d_name));
 			if (d.dp->d_type == DT_DIR && ft_strchr(opts, 'R') != NULL
@@ -112,7 +144,7 @@ int			recursive(char **startdirs, char *opts)
 				ft_putchar('\n');
 			ft_putstr(ft_strjoin(startdirs[i], ":\n"));
 		}
-		/// faire en sorte que le tri prennent en compte tout le path et pas uniquement le nom
+		/// faire en sorte que le tri prenne en compte tout le path et pas uniquement le nom
 		if ((buf = lex_sort(show_dir(startdirs[i], opts))) != NULL)
 		{
 			if (ft_strchr(opts, 't') != NULL)
