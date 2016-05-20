@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/11 18:43:32 by nchampot          #+#    #+#             */
-/*   Updated: 2016/04/11 19:59:34 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/20 17:21:17 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	printer(char **buff, char *opts)
 
 static void	print_all(char **paths, char *opts)
 {
-	int		i;
 	char	**buff;
 
 	buff = lex_sort(paths);
@@ -46,7 +45,6 @@ static void	print_all(char **paths, char *opts)
 		buff = r_sort(buff);
 	if (ft_strchr(opts, 'l') != NULL)
 		buff = opt_l(buff);
-	i = 0;
 	printer(buff, opts);
 	if (!ft_strchr(opts, 'l'))
 		ft_putchar('\n');
@@ -54,9 +52,9 @@ static void	print_all(char **paths, char *opts)
 
 static int	is_homedir(char *path)
 {
-	struct stat	fstat;
+	struct stat		fstat;
 	struct passwd	*fuid;
-	int		ret;
+	int				ret;
 
 	if (lstat(path, &fstat) < 0)
 		return (0);
