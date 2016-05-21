@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:30:41 by nchampot          #+#    #+#             */
-/*   Updated: 2016/05/20 17:51:24 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/21 18:53:03 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/xattr.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/acl.h>
 # include <dirent.h>
 # include <time.h>
 # include <grp.h>
@@ -29,7 +30,6 @@
 
 typedef struct		s_stat
 {
-	char			*mtime;
 	struct passwd	*fuid;
 	gid_t			gid;
 	struct stat		fstat;
@@ -53,7 +53,9 @@ typedef struct		s_dir
 }					t_dir;
 
 t_max				get_max(char **paths);
+char				*get_time(time_t mtime, char *path);
 char				*get_total(char **paths);
+char				get_attr(char *path);
 int					parse_args(int ac, char **av, char ***a, char **opts);
 int					recursive(char **startdirs, char *opts);
 char				**opt_l(char **paths);

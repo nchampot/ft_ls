@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/15 20:19:17 by nchampot          #+#    #+#             */
-/*   Updated: 2016/04/15 20:24:10 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/21 18:53:01 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void		get_devmax(char *path, t_max *max, t_stat st)
 {
+	int pw_len;
+	int gr_len;
 	if (ft_strlen(path) > 3 && ft_strcmp(ft_strsub(path, 0, 4), "/dev") == 0)
 	{
 		if (max->maj_size < nb_digit(major(st.fstat.st_rdev)))
@@ -21,6 +23,12 @@ static void		get_devmax(char *path, t_max *max, t_stat st)
 		if (max->min_size < nb_digit(minor(st.fstat.st_rdev)))
 			max->min_size = nb_digit(minor(st.fstat.st_rdev));
 	}
+	pw_len = st.fuid ? ft_strlen(st.fuid->pw_name) : nb_digit(st.fstat.st_uid);
+	if (pw_len > max->len_pwname)
+		max->len_pwname = pw_len;
+	gr_len = st.fgrp ? ft_strlen(st.fgrp->gr_name) : nb_digit(st.gid);
+	if (gr_len > max->len_grname)
+		max->len_grname = gr_len;
 }
 
 t_max			get_max(char **paths)
@@ -42,10 +50,6 @@ t_max			get_max(char **paths)
 		get_devmax(paths[i], &max, st);
 		if (max.nlink < nb_digit(st.fstat.st_nlink))
 			max.nlink = nb_digit(st.fstat.st_nlink);
-		if (ft_strlen(st.fuid->pw_name) > max.len_pwname)
-			max.len_pwname = ft_strlen(st.fuid->pw_name);
-		if (ft_strlen(st.fgrp->gr_name) > max.len_grname)
-			max.len_grname = ft_strlen(st.fgrp->gr_name);
 		i++;
 	}
 	return (max);
@@ -68,4 +72,29 @@ char			*get_total(char **paths)
 		i++;
 	}
 	return (ft_strjoin("total ", ft_itoa(total)));
+}
+
+char	*get_time(time_t mtime, char *path)
+{
+	char	*buf;
+	time_t	t;
+	char	*date;
+
+	date = ctime(&mtime);
+	if (time(&t) - mtime > 15778800 || mtime > t)
+	{
+		buf = ft_strsub(date, 4, 7);
+		ft_addchr(&buf, ' ');
+		return (ft_strjoin(buf, ft_strsub(date, 20, 4)));
+	}
+	return (ft_strsub(date, 4, 12));
+}
+
+char	get_attr(char *path)
+{
+	if (listxattr(path, "0", 0, XATTR_NOFOLLOW) > 0)
+		return ('@');
+	if (acl_get_file(path, ACL_TYPE_EXTENDED) > 0)
+		return ('+');
+	return (' ');
 }

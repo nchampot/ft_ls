@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 06:00:37 by nchampot          #+#    #+#             */
-/*   Updated: 2016/05/20 18:01:14 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/21 18:47:30 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static void		show_link(char **buf, char *path)
 	}
 }
 
-//find out why ls -l shows time(year) instead of time(hour)  example: /usr/local/lib/node_modules/grunt-cli/node_modules/concat-map
 static char		*stat_path(char *path, t_max max)
 {
 	char		*buf;
@@ -86,20 +85,20 @@ static char		*stat_path(char *path, t_max max)
 	buf = ft_strnew(1);
 	if (lstat(path, &st.fstat) < 0)
 		return (NULL);
-	//st.fuid = getpwuid(st.fstat.st_uid);
+	st.fuid = getpwuid(st.fstat.st_uid);
 	st.gid = st.fstat.st_gid;
-	//st.fgrp = getgrgid(st.gid);
+	st.fgrp = getgrgid(st.gid);
 	add_rights(&buf, st);
-	add_spaces(&buf, max.nlink - nb_digit(st.fstat.st_nlink) + 2);
+	ft_addchr(&buf, get_attr(path));
+	add_spaces(&buf, max.nlink - nb_digit(st.fstat.st_nlink) + 1);
 	buf = ft_strjoin(buf, ft_itoa(st.fstat.st_nlink));
 	ft_addchr(&buf, ' ');
-	//buf = ft_strjoin(buf, st.fuid ? st.fuid->pw_name : ft_itoa(st.fstat.st_uid));
-	//add_spaces(&buf, max.len_pwname - ft_strlen(st.fuid ? st.fuid->pw_name : ft_itoa(st.fstat.st_uid)) + 2);
-	//buf = ft_strjoin(buf, st.fgrp ? st.fgrp->gr_name : ft_itoa(st.gid));
-	//add_spaces(&buf, max.len_grname - ft_strlen(st.fgrp ? st.fgrp->gr_name : ft_itoa(st.gid)));
+	buf = ft_strjoin(buf, st.fuid ? st.fuid->pw_name : ft_itoa(st.fstat.st_uid));
+	add_spaces(&buf, max.len_pwname - ft_strlen(st.fuid ? st.fuid->pw_name : ft_itoa(st.fstat.st_uid)) + 2);
+	buf = ft_strjoin(buf, st.fgrp ? st.fgrp->gr_name : ft_itoa(st.gid));
+	add_spaces(&buf, max.len_grname - ft_strlen(st.fgrp ? st.fgrp->gr_name : ft_itoa(st.gid)));
 	add_size(&buf, path, st.fstat, max);
-	st.mtime = ctime(&(st.fstat.st_mtimespec.tv_sec));
-	buf = ft_strjoin(buf, ft_strsub(st.mtime, 4, 12));
+	buf = ft_strjoin(buf, get_time(st.fstat.st_mtimespec.tv_sec, path));
 	ft_addchr(&buf, ' ');
 	buf = ft_strjoin(buf, ft_strrchr(path, '/') + 1);
 	show_link(&buf, path);
@@ -113,21 +112,15 @@ char			**opt_l(char **paths)
 	int			i;
 
 	i = 0;
-	ft_putendl_fd("test1", 2);
-	max = get_max(paths); /// PROBLEME ICI SEGFAULT PLZ CHECK THIS OUT BOY
-	ft_putendl_fd("test2", 2);
+	max = get_max(paths);
 	buf = (char**)malloc(sizeof(char*));
-	ft_putendl_fd("test3", 2);
 	*buf = NULL;
 	if (*paths)
 		ft_addstr(&buf, get_total(paths));
-	ft_putendl_fd("test4", 2);
 	while (paths[i])
 	{
-	ft_putendl_fd("test5", 2);
 		ft_addstr(&buf, stat_path(paths[i], max));
 		i++;
 	}
-	ft_putendl_fd("testf", 2);
 	return (buf);
 }
