@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:30:41 by nchampot          #+#    #+#             */
-/*   Updated: 2016/05/21 18:53:03 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/21 19:24:01 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int					recursive(char **startdirs, char *opts);
 char				**opt_l(char **paths);
 void				add_spaces(char	**buf, int nb_space);
 int					nb_digit(int nb);
-char				**lex_sort(char **paths);
 char				**r_sort(char **paths);
 char				**t_sort(char **paths);
 char				**l_sort(char **paths);

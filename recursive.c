@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/11 18:43:32 by nchampot          #+#    #+#             */
-/*   Updated: 2016/05/20 17:21:17 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/21 20:01:55 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	print_all(char **paths, char *opts)
 {
 	char	**buff;
 
-	buff = lex_sort(paths);
+	buff = l_sort(paths);
 	if (ft_strchr(opts, 't') != NULL)
 		buff = t_sort(buff);
 	if (ft_strchr(opts, 'r') != NULL)
@@ -142,8 +142,7 @@ int			recursive(char **startdirs, char *opts)
 				ft_putchar('\n');
 			ft_putstr(ft_strjoin(startdirs[i], ":\n"));
 		}
-		/// faire en sorte que le tri prenne en compte tout le path et pas uniquement le nom
-		if ((buf = lex_sort(show_dir(startdirs[i], opts))) != NULL)
+		if ((buf = l_sort(show_dir(startdirs[i], opts))) != NULL)
 		{
 			if (ft_strchr(opts, 't') != NULL)
 				buf = t_sort(buf);

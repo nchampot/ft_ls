@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 06:00:37 by nchampot          #+#    #+#             */
-/*   Updated: 2016/05/21 18:47:30 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/21 20:01:24 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,22 @@ static void		add_rights(char **buf, t_stat st)
 		ft_addchr(buf, '-');
 	ft_addchr(buf, (st.fstat.st_mode & S_IRUSR) ? 'r' : '-');
 	ft_addchr(buf, (st.fstat.st_mode & S_IWUSR) ? 'w' : '-');
-	ft_addchr(buf, (st.fstat.st_mode & S_IXUSR) ? 'x' : '-');
+	if (st.fstat.st_mode & S_IXUSR)
+		ft_addchr(buf, (st.fstat.st_mode & S_ISUID) ? 's' : 'x');
+	else
+		ft_addchr(buf, (st.fstat.st_mode & S_ISUID) ? 'S' : '-');
 	ft_addchr(buf, (st.fstat.st_mode & S_IRGRP) ? 'r' : '-');
 	ft_addchr(buf, (st.fstat.st_mode & S_IWGRP) ? 'w' : '-');
-	ft_addchr(buf, (st.fstat.st_mode & S_IXGRP) ? 'x' : '-');
+	if (st.fstat.st_mode & S_IXGRP)
+		ft_addchr(buf, (st.fstat.st_mode & S_ISGID) ? 's' : 'x');
+	else
+		ft_addchr(buf, (st.fstat.st_mode & S_ISGID) ? 'S' : '-');
 	ft_addchr(buf, (st.fstat.st_mode & S_IROTH) ? 'r' : '-');
 	ft_addchr(buf, (st.fstat.st_mode & S_IWOTH) ? 'w' : '-');
-	ft_addchr(buf, (st.fstat.st_mode & S_IXOTH) ? 'x' : '-');
+	if (st.fstat.st_mode & S_IXOTH)
+		ft_addchr(buf, (st.fstat.st_mode & S_ISVTX) ? 't' : 'x');
+	else
+		ft_addchr(buf, (st.fstat.st_mode & S_ISVTX) ? 'T' : '-');
 }
 
 static void		add_size(char **buf, char *path, struct stat fstat, t_max max)

@@ -62,6 +62,8 @@ char		**l_sort(char **paths)
 	int		i;
 	int		*order;
 
+	if (paths == NULL)
+		return (NULL);
 	order = bubble_sort(paths);
 	new = (char**)malloc(sizeof(char*));
 	*new = NULL;
@@ -72,4 +74,21 @@ char		**l_sort(char **paths)
 		i++;
 	}
 	return (new);
+}
+
+char		**r_sort(char **paths)
+{
+	int		i;
+	char	**tab;
+
+	if (paths == NULL)
+		return (NULL);
+	tab = (char**)malloc(sizeof(char*));
+	*tab = NULL;
+	i = 0;
+	while (paths[i])
+		i++;
+	while (i--)
+		ft_addstr(&tab, paths[i]);
+	return (tab);
 }

@@ -6,7 +6,7 @@
 /*   By: pghassem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 18:58:16 by pghassem          #+#    #+#             */
-/*   Updated: 2016/05/20 17:34:30 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/21 19:48:35 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ static int	is_dir(char *dir)
 	DIR	*dirp;
 	
 	if ((dirp = opendir(dir)) == NULL)
+	{
+		(void)closedir(dirp);
 		return (fd_error(dir));
+	}
+	(void)closedir(dirp);
 	return (1);
 }
 
