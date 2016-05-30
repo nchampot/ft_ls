@@ -6,7 +6,7 @@
 /*   By: pghassem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 18:58:16 by pghassem          #+#    #+#             */
-/*   Updated: 2016/05/30 10:42:57 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/30 13:54:36 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	is_opt(char c)
 	return ((c == 'a') || (c == 'R') || (c == 'l') || (c == 't') || (c == 'r'));
 }
 
-static int	is_dir(char *dir)
+static int	check_dir(char *dir)
 {
 	DIR	*dirp;
 	
@@ -61,7 +61,7 @@ int			parse_args(int ac, char **av, char ***startdirs, char **opts)
 			if (check_opts(av[i], opts) != 1)
 				return (-1);
 		}
-		else if (av[i][0] != '-' && is_dir(av[i]))
+		else if (av[i][0] != '-' && check_dir(av[i]))
 			ft_addstr(startdirs, av[i]);
 		i++;
 	}
