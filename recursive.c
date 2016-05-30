@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/11 18:43:32 by nchampot          #+#    #+#             */
-/*   Updated: 2016/05/21 20:01:55 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/30 13:46:51 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	printer(char **buff, char *opts)
 	while (buff[i])
 	{
 		if (!ft_strchr(opts, 'l'))
-			buf = ft_strdup(ft_strrchr(buff[i], '/') + 1);
+			buf = ft_strdup(crop(buff[i]));
 		else
 			buf = buff[i];
 		ft_putstr(buf);
@@ -50,33 +50,11 @@ static void	print_all(char **paths, char *opts)
 		ft_putchar('\n');
 }
 
-static int	is_homedir(char *path)
-{
-	struct stat		fstat;
-	struct passwd	*fuid;
-	int				ret;
-
-	if (lstat(path, &fstat) < 0)
-		return (0);
-	fuid = getpwuid(fstat.st_uid);
-	if (path[ft_strlen(path) - 1] == '/')
-		ret = 2;
-	else
-		ret = 1;
-	if (ft_strlen(path) != ft_strlen(fuid->pw_name) + 6 + ret)
-		return (0);
-	if (ft_strcmp(ft_strsub(path, 0, 7), "/Users/") != 0) 
-		return (0);
-	if (ft_strcmp(ft_strsub(path, 7, ft_strlen(fuid->pw_name)), fuid->pw_name) != 0)
-		return (0);
-	return (ret);
-	
-}
 
 static int	add_path(char ***p, char ***ret, char *opts, char *path)
 {
 	t_dir	d;
-	int	is_hdir;
+	char	*buf;
 
 	if ((d.dirp = opendir(path)) == NULL)
 		return (fd_error(path));
@@ -84,28 +62,11 @@ static int	add_path(char ***p, char ***ret, char *opts, char *path)
 	{
 		if (!ft_strchr(opts, 'a') && (d.dp->d_name)[0] == '.')
 			continue;
-
-		if ((is_hdir = is_homedir(path)) == 1)
-		{
-			ft_addstr(p, ft_strjoin(ft_strjoin(path, "//"), d.dp->d_name));
-			if (d.dp->d_type == DT_DIR && ft_strchr(opts, 'R') != NULL
-			&& ft_strcmp(d.dp->d_name, ".") && ft_strcmp(d.dp->d_name, ".."))
-				ft_addstr(ret, ft_strjoin(ft_strjoin(path, "/"), d.dp->d_name));
-		}
-		else if (path[ft_strlen(path) - 1] != '/' || is_hdir == 2)
-		{
-			ft_addstr(p, ft_strjoin(ft_strjoin(path, "/"), d.dp->d_name));
-			if (d.dp->d_type == DT_DIR && ft_strchr(opts, 'R') != NULL
-			&& ft_strcmp(d.dp->d_name, ".") && ft_strcmp(d.dp->d_name, ".."))
-				ft_addstr(ret, ft_strjoin(ft_strjoin(path, "/"), d.dp->d_name));
-		}
-		else
-		{
-			ft_addstr(p, ft_strjoin(path, d.dp->d_name));
-			if (d.dp->d_type == DT_DIR && ft_strchr(opts, 'R') != NULL
-			&& ft_strcmp(d.dp->d_name, ".") && ft_strcmp(d.dp->d_name, ".."))
-				ft_addstr(ret, ft_strjoin(path, d.dp->d_name));
-		}
+		buf = extend(path, d.dp->d_name);
+		ft_addstr(p, buf);
+		if (is_dir(buf) && ft_strchr(opts, 'R') != NULL
+				&& ft_strcmp(d.dp->d_name, ".") && ft_strcmp(d.dp->d_name, ".."))
+			ft_addstr(ret, buf);
 	}
 	(void)closedir(d.dirp);
 	return (1);

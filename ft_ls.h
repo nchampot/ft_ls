@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:30:41 by nchampot          #+#    #+#             */
-/*   Updated: 2016/05/21 19:24:01 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/30 13:33:19 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,8 @@ char				**l_sort(char **paths);
 char				**ft_error(char *path);
 int					fd_error(char *path);
 t_max				init_max(void);
+char				*crop(char *path);
+char				*extend(char *path, char *d_name);
+int					is_dir(char *path);
 
 #endif
