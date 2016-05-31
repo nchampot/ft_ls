@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 06:00:37 by nchampot          #+#    #+#             */
-/*   Updated: 2016/05/30 13:46:02 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/05/31 17:13:38 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ static void		show_link(char **buf, char *path)
 {
 	char	*buff;
 
-	buff = ft_strnew(3000);
+	buff = ft_strnew(200);
 	if (**buf == 'l')
 	{
-		if (readlink(path, buff, 3000) >= 0)
+		if (readlink(path, buff, 200) >= 0)
 		{
 			*buf = ft_strjoin(*buf, " -> ");
 			*buf = ft_strjoin(*buf, buff);
@@ -117,18 +117,26 @@ static char		*stat_path(char *path, t_max max)
 char			**opt_l(char **paths)
 {
 	char		**buf;
+	char		**buff;
 	t_max		max;
 	int			i;
 
 	i = 0;
-	max = get_max(paths);
 	buf = (char**)malloc(sizeof(char*));
 	*buf = NULL;
-	if (*paths)
-		ft_addstr(&buf, get_total(paths));
-	while (paths[i])
+	if (!ft_strncmp(*paths, "/etc", 4))
 	{
-		ft_addstr(&buf, stat_path(paths[i], max));
+		ft_addstr(&buff, "/etc");
+		max = get_max(buff);
+		ft_addstr(&buf, stat_path(*buff, max));
+		return (buf);
+	}
+	max = get_max(buff);
+	if (*buff)
+		ft_addstr(&buf, get_total(buff));
+	while (buff[i])
+	{
+		ft_addstr(&buf, stat_path(buff[i], max));
 		i++;
 	}
 	return (buf);
