@@ -6,7 +6,7 @@
 /*   By: pghassem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 18:58:16 by pghassem          #+#    #+#             */
-/*   Updated: 2016/05/30 15:03:49 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/06/09 04:44:24 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static int	is_opt(char c)
 	return ((c == 'a') || (c == 'R') || (c == 'l') || (c == 't') || (c == 'r'));
 }
 
-static int	check_dir(char *dir)
+static int	check_dir(char *dir, char ***fails)
 {
 	DIR	*dirp;
 	
 	if ((dirp = opendir(dir)) == NULL)
 	{
-		(void)closedir(dirp);
-		return (fd_error(dir));
+		ft_addstr(fails, dir);
+		return (0);
 	}
 	(void)closedir(dirp);
 	return (1);
@@ -43,7 +43,7 @@ static int	check_opts(char *s, char **opts)
 				ft_addchr(opts, s[i]);
 		}
 		else
-			return ((int)s[i]);
+			return (0);
 		i++;
 	}
 	return (1);
@@ -52,20 +52,40 @@ static int	check_opts(char *s, char **opts)
 int			parse_args(int ac, char **av, char ***startdirs, char **opts)
 {
 	int		i;
+	int		count;
+	char	**buf;
+	char	**fails;
 
+	fails = (char**)malloc(sizeof(char*));
+	*fails = NULL;
 	i = 1;
+	count = 0;
 	while (av[i])
 	{
 		if (**startdirs == '\0' && av[i][0] == '-')
+			check_opts(av[i], opts);
+		else if (av[i][0] != '-')
 		{
-			if (check_opts(av[i], opts) != 1)
-				return (-1);
+		   	if (check_dir(av[i], &fails))
+				ft_addstr(startdirs, av[i]);
+			else
+				count++;
 		}
-		else if (av[i][0] != '-' && check_dir(av[i]))
-			ft_addstr(startdirs, av[i]);
 		i++;
 	}
+	i = 0;
+	buf = l_sort(fails);
+	while (buf[i])
+		fd_error(buf[i++]);
 	if (**startdirs == '\0')
-		ft_addstr(startdirs, ".");
+	{
+	   if (count == 0)
+		   ft_addstr(startdirs, ".");
+	   else
+		   return (-1);
+	}
+	else
+		*startdirs = l_sort(*startdirs);
+	ft_putendl(*opts);
 	return (1);
 }

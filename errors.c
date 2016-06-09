@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:18:03 by nchampot          #+#    #+#             */
-/*   Updated: 2016/05/30 14:29:52 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/06/09 03:16:00 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*crop(char *path)
 	if (!path)
 		return (NULL);
 	len = ft_strlen(path);
+	if (len == 1)
+		return (path);
 	if (path[len - 1] != '/')
 		return (ft_strrchr(path, '/') + 1);
 	return (ft_strrchr(ft_strsub(path, 0, len - 1), '/') + 1);

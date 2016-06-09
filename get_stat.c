@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/15 20:19:17 by nchampot          #+#    #+#             */
-/*   Updated: 2016/05/21 18:53:01 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/06/09 05:48:16 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*get_time(time_t mtime, char *path)
 	char	*date;
 
 	date = ctime(&mtime);
-	if (time(&t) - mtime > 15778800 || mtime > t)
+	//if (time(&t) - mtime > 13078800 || mtime > t)
 	{
 		buf = ft_strsub(date, 4, 7);
 		ft_addchr(&buf, ' ');

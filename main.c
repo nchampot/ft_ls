@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:28:48 by nchampot          #+#    #+#             */
-/*   Updated: 2016/05/30 15:03:48 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/06/09 04:47:11 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ int	main(int ac, char **av)
 	char	*opts;
 
 	startdirs = (char**)malloc(sizeof(char*));
-	opts = malloc(1);
-	*opts = '\0';
+	opts = ft_strnew(0);
 	*startdirs = NULL;
 	if (parse_args(ac, av, &startdirs, &opts) != 1)
 	{
