@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 06:00:37 by nchampot          #+#    #+#             */
-/*   Updated: 2016/06/09 04:47:10 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/06/10 13:41:42 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,9 @@ char			**opt_l(char **paths)
 	t_max		max;
 	int			i;
 
-	i = 0;
 	buf = (char**)malloc(sizeof(char*));
 	*buf = NULL;
-	if (!ft_strncmp(*paths, "/etc", 4))
+	if (*paths && !ft_strncmp(*paths, "/etc", 4))
 	{
 		buff = (char**)malloc(sizeof(char*));
 		*buff = NULL;
@@ -136,6 +135,7 @@ char			**opt_l(char **paths)
 	max = get_max(paths);
 	if (*paths)
 		ft_addstr(&buf, get_total(paths));
+	i = 0;
 	while (paths[i])
 	{
 		ft_addstr(&buf, stat_path(paths[i], max));

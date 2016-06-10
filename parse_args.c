@@ -6,7 +6,7 @@
 /*   By: pghassem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 18:58:16 by pghassem          #+#    #+#             */
-/*   Updated: 2016/06/09 04:44:24 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/06/10 14:09:43 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,5 @@ int			parse_args(int ac, char **av, char ***startdirs, char **opts)
 	}
 	else
 		*startdirs = l_sort(*startdirs);
-	ft_putendl(*opts);
 	return (1);
 }
