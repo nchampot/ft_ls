@@ -6,7 +6,7 @@
 /*   By: pghassem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 18:58:16 by pghassem          #+#    #+#             */
-/*   Updated: 2016/06/10 14:09:43 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/06/25 17:14:58 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int			parse_args(int ac, char **av, char ***startdirs, char **opts)
 	{
 	   if (count == 0)
 		   ft_addstr(startdirs, ".");
-	   else
+	   else if (!(*buf))
 		   return (-1);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:34:19 by nchampot          #+#    #+#             */
-/*   Updated: 2016/06/10 15:06:37 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/06/25 17:14:57 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	*bubble_sort(char **paths)
 		i = -1;
 		while (i++ < (len - 1))
 		{
-			if (cmpdates(paths[order[i]], paths[order[i + 1]]) < 0)
+			if (cmpdates(paths[order[i]], paths[order[i + 1]]) <= 0)
 			{
 				tmp = order[i];
 				order[i] = order[i + 1];
