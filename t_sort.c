@@ -6,13 +6,15 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:34:19 by nchampot          #+#    #+#             */
-/*   Updated: 2016/06/25 17:14:57 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/07/12 18:17:17 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #define NOPE 0
 #define YEP 1
+#define SEC st_mtimespec.tv_sec
+#define NSEC st_mtimespec.tv_nsec
 
 static int	cmpdates(char *path1, char *path2)
 {
@@ -23,7 +25,9 @@ static int	cmpdates(char *path1, char *path2)
 		exit(0);
 	if (lstat(path2, &fstat2) < 0)
 		exit(0);
-	return (difftime(fstat1.st_mtimespec.tv_sec, fstat2.st_mtimespec.tv_sec));
+	if (difftime(fstat1.SEC, fstat2.SEC) == 0)
+		return (difftime(fstat1.NSEC, fstat2.NSEC));
+	return (difftime(fstat1.SEC, fstat2.SEC));
 }
 
 static int	*init_order(int len)
@@ -68,7 +72,7 @@ static int	*bubble_sort(char **paths)
 		i = -1;
 		while (i++ < (len - 1))
 		{
-			if (cmpdates(paths[order[i]], paths[order[i + 1]]) <= 0)
+			if (cmpdates(paths[order[i]], paths[order[i + 1]]) < 0)
 			{
 				tmp = order[i];
 				order[i] = order[i + 1];

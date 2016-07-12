@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:18:03 by nchampot          #+#    #+#             */
-/*   Updated: 2016/06/25 16:13:02 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/07/12 18:09:40 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*extend(char *path, char *d_name)
 	return (ft_strjoin(path, d_name));
 }
 
-int	fd_error(char *path)
+int		fd_error(char *path)
 {
 	ft_putstr_fd("ls: ", 2);
 	ft_putstr_fd(crop(path), 2);

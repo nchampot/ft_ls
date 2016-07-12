@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/15 20:19:17 by nchampot          #+#    #+#             */
-/*   Updated: 2016/06/10 14:09:14 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/07/12 18:11:31 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void		get_devmax(char *path, t_max *max, t_stat st)
 {
 	int pw_len;
 	int gr_len;
+
 	if (ft_strlen(path) > 3 && ft_strcmp(ft_strsub(path, 0, 4), "/dev") == 0)
 	{
 		if (max->maj_size < nb_digit(major(st.fstat.st_rdev)))
@@ -74,7 +75,7 @@ char			*get_total(char **paths)
 	return (ft_strjoin("total ", ft_itoa(total)));
 }
 
-char	*get_time(time_t mtime, char *path)
+char			*get_time(time_t mtime, char *path)
 {
 	char	*buf;
 	time_t	t;
@@ -90,7 +91,7 @@ char	*get_time(time_t mtime, char *path)
 	return (ft_strsub(date, 4, 12));
 }
 
-char	get_attr(char *path)
+char			get_attr(char *path)
 {
 	if (listxattr(path, "0", 0, XATTR_NOFOLLOW) > 0)
 		return ('@');

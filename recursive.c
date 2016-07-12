@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/11 18:43:32 by nchampot          #+#    #+#             */
-/*   Updated: 2016/06/25 16:29:32 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/07/12 18:08:47 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	print_all(char **paths, char *opts)
 		ft_putchar('\n');
 }
 
-
 static int	add_path(char ***p, char ***ret, char *opts, char *path)
 {
 	t_dir	d;
@@ -64,8 +63,8 @@ static int	add_path(char ***p, char ***ret, char *opts, char *path)
 			continue;
 		buf = extend(path, d.dp->d_name);
 		ft_addstr(p, buf);
-		if (is_dir(buf) && ft_strchr(opts, 'R') != NULL
-				&& ft_strcmp(d.dp->d_name, ".") && ft_strcmp(d.dp->d_name, ".."))
+		if (is_dir(buf) && ft_strchr(opts, 'R') != NULL &&
+				ft_strcmp(d.dp->d_name, ".") && ft_strcmp(d.dp->d_name, ".."))
 			ft_addstr(ret, buf);
 	}
 	(void)closedir(d.dirp);
