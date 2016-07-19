@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:34:19 by nchampot          #+#    #+#             */
-/*   Updated: 2016/07/12 18:17:17 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/07/19 16:44:19 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static int	cmpdates(char *path1, char *path2)
 		exit(0);
 	if (lstat(path2, &fstat2) < 0)
 		exit(0);
-	if (difftime(fstat1.SEC, fstat2.SEC) == 0)
-		return (difftime(fstat1.NSEC, fstat2.NSEC));
-	return (difftime(fstat1.SEC, fstat2.SEC));
+	if (fstat1.SEC - fstat2.SEC == 0)
+		return (fstat1.NSEC - fstat2.NSEC);
+	return (fstat1.SEC - fstat2.SEC);
 }
 
 static int	*init_order(int len)
