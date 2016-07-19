@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 11:59:23 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:08:00 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 #include "libft.h"
 
@@ -8,6 +20,7 @@
 ** If copy cannot occur because buffer's `size` is too small, returns
 ** `size + ft_strlen(src)`; otherwise, perform the copy and returns final size.
 */
+
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	len_dst;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 12:13:49 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:13:53 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 
 /*
@@ -5,6 +17,7 @@
 ** area `s1`. If `s` and `s2` overlap, behavior is undefined (in that case, the
 ** developper would better use ft_memmove()`).
 */
+
 void	*ft_memcpy(void *s1, const void *s2, size_t n)
 {
 	char		*p_s1;

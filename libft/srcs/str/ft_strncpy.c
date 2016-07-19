@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 11:59:44 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:08:33 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 
 /*
@@ -6,6 +18,7 @@
 ** If copy ends but `s1` still has space, it gets filled with '\0's.
 ** The end copy is not guaranteed to be null-terminated!
 */
+
 char	*ft_strncpy(char *s1, const char *s2, size_t n)
 {
 	size_t	i;

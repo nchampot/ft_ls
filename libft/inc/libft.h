@@ -6,7 +6,7 @@
 /*   By: dtortera <dtortera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/19 12:14:02 by dtortera          #+#    #+#             */
-/*   Updated: 2015/02/16 16:42:56 by dtortera         ###   ########.fr       */
+/*   Updated: 2016/07/19 12:16:06 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ char			*ft_strstr(const char *s1, const char *s2);
 char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			*ft_strtrim(char const *s);
 char			**ft_addstr(char ***tab, const char *s);
-char			*ft_addchr(char **pString, const char c);
+char			*ft_addchr(char **pstring, const char c);
 
 #endif

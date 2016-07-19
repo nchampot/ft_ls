@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 12:13:35 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:13:39 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 
 /*
@@ -7,6 +19,7 @@
 ** string `s1` is returned. Otherwise, `n` bytes are copied, and function
 ** returns NULL.
 */
+
 void	*ft_memccpy(void *s1, const void *s2, int c, size_t n)
 {
 	char			*p_s1;

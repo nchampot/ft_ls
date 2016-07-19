@@ -6,7 +6,7 @@
 /*   By: pghassem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 18:58:16 by pghassem          #+#    #+#             */
-/*   Updated: 2016/07/12 18:06:10 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/07/19 13:20:42 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,19 @@ static int	check_opts(char *s, char **opts)
 				ft_addchr(opts, s[i]);
 		}
 		else
+		{
+			ft_putstr_fd("usage: ft_ls: illegal option -- ", 2);
+			ft_putchar_fd(s[i], 2);
+			ft_putchar_fd('\n', 2);
+			ft_putendl_fd(USAGE, 2);
 			return (0);
+		}
 		i++;
 	}
 	return (1);
 }
 
-static void	check_args(char **av, char ***startdirs, char **opts, char ***fails)
+static int	check_args(char **av, char ***startdirs, char **opts, char ***fails)
 {
 	int	i;
 
@@ -57,7 +63,10 @@ static void	check_args(char **av, char ***startdirs, char **opts, char ***fails)
 	while (av[i])
 	{
 		if (**startdirs == '\0' && av[i][0] == '-')
-			check_opts(av[i], opts);
+		{
+			if (!check_opts(av[i], opts))
+				return (0);
+		}
 		else if (av[i][0] != '-')
 		{
 			if (check_dir(av[i], fails))
@@ -65,6 +74,7 @@ static void	check_args(char **av, char ***startdirs, char **opts, char ***fails)
 		}
 		i++;
 	}
+	return (1);
 }
 
 int			parse_args(int ac, char **av, char ***startdirs, char **opts)
@@ -75,11 +85,15 @@ int			parse_args(int ac, char **av, char ***startdirs, char **opts)
 
 	fails = (char**)malloc(sizeof(char*));
 	*fails = NULL;
-	check_args(av, startdirs, opts, &fails);
-	buf = l_sort(fails);
-	i = 0;
-	while (buf[i])
-		fd_error(buf[i++]);
+	if (check_args(av, startdirs, opts, &fails))
+	{
+		buf = l_sort(fails);
+		i = 0;
+		while (buf[i])
+			fd_error(buf[i++]);
+	}
+	else
+		return (-1);
 	if (**startdirs == '\0')
 	{
 		if (*buf)

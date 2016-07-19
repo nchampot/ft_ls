@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 11:59:09 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:07:25 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 /*
@@ -5,6 +17,7 @@
 ** `s1` with null-terminated string `s2`. If the strings are equal, the function
 ** returns 1; if the strings are different, the function returns 0.
 */
+
 int		ft_strequ(char const *s1, char const *s2)
 {
 	if (s1 && s2)

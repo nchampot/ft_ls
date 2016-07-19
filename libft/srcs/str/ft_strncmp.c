@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 11:59:41 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:08:28 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 
 /*
@@ -7,6 +19,7 @@
 ** otherwise, it returns the difference in ASCII value between the first diff-
 ** ering characters.
 */
+
 int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	if (!n)

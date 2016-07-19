@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 12:00:21 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:09:34 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 #include "libft.h"
 
@@ -7,6 +19,7 @@
 ** trimmed result, and returns a pointer to it. The function returns NULL if
 ** memory allocation fails.
 */
+
 char	*ft_strtrim(char const *s)
 {
 	size_t	len;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strsplit.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 12:00:01 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:09:10 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stddef.h>
 #include <stdlib.h>
 #include "libft.h"
@@ -16,6 +28,7 @@
 ** being separated with `c`s. If no token is found, that makes one word; if no
 ** word is found... that makes zero word.
 */
+
 static size_t	count_tok(char const *s, char c)
 {
 	size_t	nb_occ;

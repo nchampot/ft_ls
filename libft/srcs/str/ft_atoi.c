@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 11:58:24 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:06:24 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 /*
@@ -6,6 +18,7 @@
 ** The string may begin with an arbitrary amount of white space, followed by
 ** a single, optional, '+' or '-' sign.
 */
+
 int		ft_atoi(const char *str)
 {
 	int		number;

@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 12:12:08 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:12:24 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include "libft.h"
 
 /*
 ** The `ft_putnbr_fd()` function writes the integer `n` to file descriptor `fd`.
 */
+
 int			ft_putnbr_fd(int n, int fd)
 {
 	unsigned int	count;

@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:28:48 by nchampot          #+#    #+#             */
-/*   Updated: 2016/06/25 16:24:34 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/07/19 12:49:23 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ int	main(int ac, char **av)
 	opts = ft_strnew(0);
 	*startdirs = NULL;
 	if (parse_args(ac, av, &startdirs, &opts) != 1)
-	{
-		ft_putendl_fd(USAGE, 2);
 		return (EXIT_FAILURE);
-	}
 	else
 		recursive(startdirs, opts);
 	return (EXIT_SUCCESS);

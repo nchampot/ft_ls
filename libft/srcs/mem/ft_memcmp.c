@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 12:13:45 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:13:48 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 
 /*
@@ -6,6 +18,7 @@
 ** The function returns the difference in value between the first two differing
 ** bytes (treated as unsigned char values), if any. Zero-length strings are ok.
 */
+
 int		ft_memcmp(const void *s1, const void *s2, size_t n)
 {
 	const unsigned char		*p_s1 = s1;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 11:58:31 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:06:40 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 #include "libft.h"
 
@@ -6,6 +18,7 @@
 ** The function returns a pointer to the fresh string, or NULL if the memory
 ** allocation failed.
 */
+
 static size_t	count_digits(int n)
 {
 	size_t	i;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/07/19 12:00:08 by nchampot          #+#    #+#             */
+/*   Updated: 2016/07/19 12:09:25 by nchampot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 #include "libft.h"
 
@@ -9,6 +21,7 @@
 ** of `s`, behavior is undefined (we return NULL here).
 ** If `start` is outside `s`'s boundaries, do nothing (return NULL).
 */
+
 char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
 	size_t	len_str;
