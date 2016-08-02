@@ -6,11 +6,47 @@
 /*   By: edelbe <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/11 15:40:09 by edelbe            #+#    #+#             */
-/*   Updated: 2016/05/21 19:24:02 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/08/02 14:59:16 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+int			is_file(char *name)
+{
+	t_dir	d;
+
+	if ((d.dirp = opendir(".")) == NULL)
+		return (0);
+	while ((d.dp = readdir(d.dirp)) != NULL)
+		if (ft_strcmp(name, d.dp->d_name) == 0)
+			return (1);
+	return (0);
+}
+
+char		**extract_files(char **startdirs, int *count)
+{
+	int		i;
+	char	**buf;
+	int		x;
+
+	buf = (char **)malloc(sizeof(char*));
+	*buf = NULL;
+	i = 0;
+	x = 0;
+	while (startdirs[i])
+	{
+		if (startdirs[i][0] == '-')
+		{
+			x++;
+			ft_addstr(&buf, (startdirs[i]) + 1);
+		}
+		i++;
+	}
+	if (x != 0)
+		(*count)++;
+	return (buf);
+}
 
 void		add_spaces(char **buf, int nb_space)
 {

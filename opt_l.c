@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 06:00:37 by nchampot          #+#    #+#             */
-/*   Updated: 2016/07/12 17:44:31 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/08/02 14:58:55 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char			**opt_l(char **paths)
 		return (buff);
 	}
 	max = get_max(paths);
-	if (*paths)
+	if (paths[1])
 		ft_addstr(&buf, get_total(paths));
 	i = 0;
 	while (paths[i])

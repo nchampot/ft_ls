@@ -6,7 +6,7 @@
 /*   By: pghassem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 18:58:16 by pghassem          #+#    #+#             */
-/*   Updated: 2016/07/19 13:20:42 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/08/02 14:37:26 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	is_opt(char c)
 {
-	return ((c == 'a') || (c == 'R') || (c == 'l') || (c == 't') || (c == 'r'));
+	return ((c == 'a') || (c == 'R') ||\
+			(c == 'l') || (c == 't') || (c == 'r') || (c == 'G'));
 }
 
 static int	check_dir(char *dir, char ***fails)
@@ -23,6 +24,8 @@ static int	check_dir(char *dir, char ***fails)
 
 	if ((dirp = opendir(dir)) == NULL)
 	{
+		if (is_file(dir))
+			return (2);
 		ft_addstr(fails, dir);
 		return (0);
 	}
@@ -69,8 +72,10 @@ static int	check_args(char **av, char ***startdirs, char **opts, char ***fails)
 		}
 		else if (av[i][0] != '-')
 		{
-			if (check_dir(av[i], fails))
+			if (check_dir(av[i], fails) == 1)
 				ft_addstr(startdirs, av[i]);
+			if (check_dir(av[i], fails) == 2)
+				ft_addstr(startdirs, ft_strjoin("-./", av[i]));
 		}
 		i++;
 	}

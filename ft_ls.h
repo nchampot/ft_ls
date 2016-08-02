@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:30:41 by nchampot          #+#    #+#             */
-/*   Updated: 2016/07/19 16:44:41 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/08/02 14:43:58 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@
 # include <errno.h>
 
 # define USAGE "usage: ft_ls [-Ralrt] [File...]"
+
+# define RED		"\x1B[31m"
+# define BRED		"\x1B[1;31m"
+# define GREEN		"\x1B[32m"
+# define BGREEN		"\x1B[1;32m"
+# define YELLOW		"\x1B[33m"
+# define BLUE		"\x1B[34m"
+# define MAGENTA	"\x1B[35m"
+# define BMAGENTA	"\x1B[1;35m"
+# define CYAN		"\x1B[36m"
+# define BCYAN		"\x1B[1;36m"
 
 typedef struct		s_stat
 {
@@ -72,5 +83,7 @@ t_stat				init_stat(char *path);
 char				*crop(char *path);
 char				*extend(char *path, char *d_name);
 int					is_dir(char *path);
+int					is_file(char *name);
+char				**extract_files(char **startdirs, int *count);
 
 #endif

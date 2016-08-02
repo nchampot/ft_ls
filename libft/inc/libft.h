@@ -6,7 +6,7 @@
 /*   By: dtortera <dtortera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/19 12:14:02 by dtortera          #+#    #+#             */
-/*   Updated: 2016/07/19 12:16:06 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/07/20 13:24:08 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int				ft_putnbr(int n);
 int				ft_putnbr_fd(int n, int fd);
 int				ft_putstr(char const *s);
 int				ft_putstr_fd(char const *s, int fd);
+int				ft_putendl_color(char const *s, char *color);
+int				ft_putstr_color(char const *s, char *color);
 
 /*
 **	mem/

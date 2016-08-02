@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/11 18:43:32 by nchampot          #+#    #+#             */
-/*   Updated: 2016/07/12 18:08:47 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/08/02 15:18:56 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,14 @@ static void	printer(char **buff, char *opts)
 			buf = ft_strdup(crop(buff[i]));
 		else
 			buf = buff[i];
-		ft_putstr(buf);
+		if (!ft_strchr(opts, 'G'))
+			ft_putstr(buf);
+		else if (i % 2 == 0)
+			ft_putstr_color(buf, GREEN);
+		else if (i % 3 == 0)
+			ft_putstr_color(buf, YELLOW);
+		else
+			ft_putstr_color(buf, RED);
 		if (!ft_strchr(opts, 'l'))
 			ft_putchar(' ');
 		else
@@ -38,16 +45,19 @@ static void	print_all(char **paths, char *opts)
 {
 	char	**buff;
 
-	buff = l_sort(paths);
-	if (ft_strchr(opts, 't') != NULL)
-		buff = t_sort(buff);
-	if (ft_strchr(opts, 'r') != NULL)
-		buff = r_sort(buff);
-	if (ft_strchr(opts, 'l') != NULL)
-		buff = opt_l(buff);
-	printer(buff, opts);
-	if (!ft_strchr(opts, 'l'))
-		ft_putchar('\n');
+	if (*paths)
+	{
+		buff = l_sort(paths);
+		if (ft_strchr(opts, 't') != NULL)
+			buff = t_sort(buff);
+		if (ft_strchr(opts, 'r') != NULL)
+			buff = r_sort(buff);
+		if (ft_strchr(opts, 'l') != NULL)
+			buff = opt_l(buff);
+		printer(buff, opts);
+		if (!ft_strchr(opts, 'l'))
+			ft_putchar('\n');
+	}
 }
 
 static int	add_path(char ***p, char ***ret, char *opts, char *path)
@@ -92,25 +102,25 @@ int			recursive(char **startdirs, char *opts)
 	char		**buf;
 	static int	count = 0;
 
-	i = 0;
-	count++;
-	while (startdirs[i])
+	i = -1;
+	if (count++ == 0)
+		print_all(extract_files(startdirs, &count), opts);
+	while (startdirs[++i])
 	{
-		if (count > 1 || (count == 1 && startdirs[1] != NULL))
+		if (startdirs[i][0] != '-')
 		{
-			if (count > 1)
-				ft_putchar('\n');
-			ft_putstr(ft_strjoin(startdirs[i], ":\n"));
+			if (count > 1 || (count == 1 && startdirs[1] != NULL))
+			{
+				count > 1 ? ft_putchar('\n') : ft_strlen("XD");
+				ft_putstr(ft_strjoin(startdirs[i], ":\n"));
+			}
+			if ((buf = l_sort(show_dir(startdirs[i], opts))) != NULL)
+			{
+				buf = ft_strchr(opts, 't') != NULL ? t_sort(buf) : buf;
+				buf = ft_strchr(opts, 'r') != NULL ? r_sort(buf) : buf;
+				recursive(buf, opts);
+			}
 		}
-		if ((buf = l_sort(show_dir(startdirs[i], opts))) != NULL)
-		{
-			if (ft_strchr(opts, 't') != NULL)
-				buf = t_sort(buf);
-			if (ft_strchr(opts, 'r') != NULL)
-				buf = r_sort(buf);
-			recursive(buf, opts);
-		}
-		i++;
 	}
 	return (EXIT_SUCCESS);
 }
