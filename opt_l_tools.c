@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/12 16:16:55 by nchampot          #+#    #+#             */
-/*   Updated: 2016/07/12 17:45:51 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/09/09 00:38:09 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@ static char	get_type(t_stat st)
 	else if (S_ISFIFO(st.fstat.st_mode))
 		return ('p');
 	return ('-');
+}
+
+int		is_slink(char *path)
+{
+	struct stat	fstat;
+
+	if (lstat(path, &fstat) < 0)
+		return (1);
+	if (S_ISDIR(fstat.st_mode))
+		return (0);
+	return (1);
 }
 
 void		add_rights(char **buf, t_stat st)

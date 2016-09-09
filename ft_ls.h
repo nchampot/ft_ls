@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:30:41 by nchampot          #+#    #+#             */
-/*   Updated: 2016/08/02 14:43:58 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/09/09 03:32:48 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ typedef struct		s_dir
 	DIR				*dirp;
 }					t_dir;
 
+char				*stat_path(char *path, t_max max);
+int					is_allowed(char *path);
+int					is_slink(char *path);
 t_max				get_max(char **paths);
 char				*get_time(time_t mtime, char *path);
 char				*get_total(char **paths);

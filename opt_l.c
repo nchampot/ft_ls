@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 06:00:37 by nchampot          #+#    #+#             */
-/*   Updated: 2016/08/02 14:58:55 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/09/09 04:11:00 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void		show_link(char **buf, char *path)
 	}
 }
 
-static char		*stat_path(char *path, t_max max)
+char			*stat_path(char *path, t_max max)
 {
 	char		*buf;
 	t_stat		st;
@@ -81,21 +81,11 @@ static char		*stat_path(char *path, t_max max)
 char			**opt_l(char **paths)
 {
 	char		**buf;
-	char		**buff;
 	t_max		max;
 	int			i;
 
 	buf = (char**)malloc(sizeof(char*));
 	*buf = NULL;
-	if (*paths && !ft_strncmp(*paths, "/etc", 4))
-	{
-		buff = (char**)malloc(sizeof(char*));
-		*buff = NULL;
-		ft_addstr(&buf, "/etc");
-		max = get_max(buf);
-		ft_addstr(&buff, stat_path("/etc", max));
-		return (buff);
-	}
 	max = get_max(paths);
 	if (paths[1])
 		ft_addstr(&buf, get_total(paths));

@@ -6,7 +6,7 @@
 /*   By: pghassem <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 18:58:16 by pghassem          #+#    #+#             */
-/*   Updated: 2016/08/02 14:37:26 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/09/09 03:15:21 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	is_opt(char c)
 {
-	return ((c == 'a') || (c == 'R') ||\
+	return ((c == 'a') || (c == 'R') || c == '1' ||\
 			(c == 'l') || (c == 't') || (c == 'r') || (c == 'G'));
 }
 
@@ -47,7 +47,7 @@ static int	check_opts(char *s, char **opts)
 		}
 		else
 		{
-			ft_putstr_fd("usage: ft_ls: illegal option -- ", 2);
+			ft_putstr_fd("ft_ls: illegal option -- ", 2);
 			ft_putchar_fd(s[i], 2);
 			ft_putchar_fd('\n', 2);
 			ft_putendl_fd(USAGE, 2);
@@ -61,6 +61,7 @@ static int	check_opts(char *s, char **opts)
 static int	check_args(char **av, char ***startdirs, char **opts, char ***fails)
 {
 	int	i;
+	int	check;
 
 	i = 1;
 	while (av[i])
@@ -72,9 +73,10 @@ static int	check_args(char **av, char ***startdirs, char **opts, char ***fails)
 		}
 		else if (av[i][0] != '-')
 		{
-			if (check_dir(av[i], fails) == 1)
+			check = 0;
+			if ((check = check_dir(av[i], fails)) == 1)
 				ft_addstr(startdirs, av[i]);
-			if (check_dir(av[i], fails) == 2)
+			if (check == 2)
 				ft_addstr(startdirs, ft_strjoin("-./", av[i]));
 		}
 		i++;
