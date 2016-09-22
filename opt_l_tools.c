@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/12 16:16:55 by nchampot          #+#    #+#             */
-/*   Updated: 2016/09/09 04:48:30 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/09/22 07:15:00 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	get_type(t_stat st)
 	return ('-');
 }
 
-int		is_slink(char *path)
+int			is_slink(char *path)
 {
 	struct stat	fstat;
 
