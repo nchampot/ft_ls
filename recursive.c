@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/11 18:43:32 by nchampot          #+#    #+#             */
-/*   Updated: 2016/09/22 08:47:24 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/09/22 10:23:46 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,6 @@ char		**get_next_dirs(char *current, char *opts)
 	if (ft_strchr(opts, 't') != NULL)
 		buf = t_sort(buf);
 	if (ft_strchr(opts, 'r') != NULL)
-		buf = t_sort(buf);
+		buf = r_sort(buf);
 	return (buf);
 }
