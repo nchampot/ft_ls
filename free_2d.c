@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memdel.c                                        :+:      :+:    :+:   */
+/*   free_2d.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/19 12:13:54 by nchampot          #+#    #+#             */
-/*   Updated: 2016/09/22 08:38:06 by nchampot         ###   ########.fr       */
+/*   Created: 2016/09/22 08:20:56 by nchampot          #+#    #+#             */
+/*   Updated: 2016/09/22 08:24:41 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "ft_ls.h"
 
-/*
- ** The `ft_memdel()` function frees the memory used by the `ap` pointer, then
- ** sets the pointer to NULL. This function does nothing if pointer is NULL.
-*/
-
-void	ft_memdel(void **ap)
+void	free_stuff(char **stuff)
 {
-	if (*ap)
-	{
-		free(*ap);
-		*ap = NULL;
-	}
+	int		i;
+
+	i = -1;
+	while (stuff[++i])
+		free(stuff[i]);
+	free(stuff);
 }

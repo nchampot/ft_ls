@@ -6,11 +6,39 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:28:48 by nchampot          #+#    #+#             */
-/*   Updated: 2016/09/09 04:48:26 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/09/22 08:36:34 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+int	recursive(char **startdirs, char *opts)
+{
+	int			i;
+	char		**buf;
+	static int	count = 0;
+
+	i = -1;
+	if (count++ == 0)
+		print_all(extract_files(startdirs, &count), opts);
+	while (startdirs[++i])
+	{
+		if (startdirs[i][0] != '-')
+		{
+			if (count > 1 || (count == 1 && startdirs[1] != NULL))
+			{
+				count > 1 ? ft_putchar('\n') : ft_strlen("XD");
+				ft_putstr(ft_strjoin(startdirs[i], ":\n"));
+			}
+			if ((buf = get_next_dirs(startdirs[i], opts)) != NULL)
+			{
+				recursive(buf, opts);
+				free_stuff(buf);
+			}
+		}
+	}
+	return (EXIT_SUCCESS);
+}
 
 int	main(int ac, char **av)
 {

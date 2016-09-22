@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/11 18:43:32 by nchampot          #+#    #+#             */
-/*   Updated: 2016/09/09 04:48:43 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/09/22 08:47:24 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	printer(char **buff, char *opts)
 	}
 }
 
-static void	print_all(char **paths, char *opts)
+void		print_all(char **paths, char *opts)
 {
 	char	**buff;
 
@@ -104,39 +104,25 @@ static char	**show_dir(char *path, char *opts)
 		max = get_max(paths);
 		ft_addstr(&ret, stat_path(path, max));
 		print_all(paths, opts);
+		free_stuff(paths);
 		return (NULL);
 	}
 	if (!add_path(&paths, &ret, opts, path))
 		return (NULL);
 	print_all(paths, opts);
+	free_stuff(paths);
 	return (ret);
 }
 
-int			recursive(char **startdirs, char *opts)
+char		**get_next_dirs(char *current, char *opts)
 {
-	int			i;
-	char		**buf;
-	static int	count = 0;
+	char	**buf;
 
-	i = -1;
-	if (count++ == 0)
-		print_all(extract_files(startdirs, &count), opts);
-	while (startdirs[++i])
-	{
-		if (startdirs[i][0] != '-')
-		{
-			if (count > 1 || (count == 1 && startdirs[1] != NULL))
-			{
-				count > 1 ? ft_putchar('\n') : ft_strlen("XD");
-				ft_putstr(ft_strjoin(startdirs[i], ":\n"));
-			}
-			if ((buf = l_sort(show_dir(startdirs[i], opts))) != NULL)
-			{
-				buf = ft_strchr(opts, 't') != NULL ? t_sort(buf) : buf;
-				buf = ft_strchr(opts, 'r') != NULL ? r_sort(buf) : buf;
-				recursive(buf, opts);
-			}
-		}
-	}
-	return (EXIT_SUCCESS);
+	if ((buf = l_sort(show_dir(current, opts))) == NULL)
+		return (NULL);
+	if (ft_strchr(opts, 't') != NULL)
+		buf = t_sort(buf);
+	if (ft_strchr(opts, 'r') != NULL)
+		buf = t_sort(buf);
+	return (buf);
 }
