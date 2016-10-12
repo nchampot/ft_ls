@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:18:03 by nchampot          #+#    #+#             */
-/*   Updated: 2016/10/12 12:26:13 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/10/12 13:19:17 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,17 @@ int		is_dir(char *path)
 	struct passwd	*fuid;
 
 	if (lstat(path, &fstat) < 0)
-		return (0);
+		return (-1);
 	return (S_ISDIR(fstat.st_mode));
 }
 
 int		is_allowed(char *path)
 {
-	struct stat		fstat;
-	struct passwd	*fuid;
+	DIR	*dirp;
 
-	if (opendir(path) == NULL || lstat(path, &fstat) < 0)
-		return (0);
-	return (1);
+	errno = 0;
+	dirp = opendir(path);
+	return (!(errno == EACCES));
 }
 
 char	*crop(char *path)
@@ -62,12 +61,18 @@ char	*extend(char *path, char *d_name)
 
 int		fd_error(char *path)
 {
+	if (errno == 0)
+		return (1);
 	ft_putstr_fd("ls: ", 2);
 	ft_putstr_fd(crop(path), 2);
 	if (errno == EACCES)
 		ft_putendl_fd(": Permission denied", 2);
-	else
+	else if (errno == ENOENT)
 		ft_putendl_fd(": No such file or directory", 2);
+	else if (errno == ENOTDIR)
+		ft_putendl_fd(": Not a directory", 2);
+	else
+		ft_putendl_fd(": Unkown error", 2);
 	errno = 0;
 	return (1);
 }

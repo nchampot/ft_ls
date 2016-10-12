@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/09 04:48:36 by nchampot          #+#    #+#             */
-/*   Updated: 2016/10/12 12:31:55 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/10/12 13:15:59 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	check_dir(char *dir, char ***fails)
 
 	if ((dirp = opendir(dir)) == NULL)
 	{
-		if (is_allowed(dir) && is_file(dir))
+		if (errno == ENOTDIR && is_file(dir))
 			return (2);
 		ft_addstr(fails, dir);
 		return (0);
