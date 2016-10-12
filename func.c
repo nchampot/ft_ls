@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/09 04:48:12 by nchampot          #+#    #+#             */
-/*   Updated: 2016/09/22 07:33:28 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/10/12 12:22:45 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int			is_file(char *name)
 
 	if ((d.dirp = opendir(".")) == NULL)
 		return (0);
+	ft_putendl(name);
 	while ((d.dp = readdir(d.dirp)) != NULL)
 		if (ft_strcmp(name, d.dp->d_name) == 0)
 			return (1);

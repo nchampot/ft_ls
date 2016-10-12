@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/11 18:43:32 by nchampot          #+#    #+#             */
-/*   Updated: 2016/09/22 10:23:46 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/10/12 12:31:53 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ static int	add_path(char ***p, char ***ret, char *opts, char *path)
 		if (!ft_strchr(opts, 'a') && (d.dp->d_name)[0] == '.')
 			continue;
 		buf = extend(path, d.dp->d_name);
-		if ((ft_strchr(opts, 'l') || ft_strchr(opts, 'R')) && !is_allowed(buf))
+	/*	if ((ft_strchr(opts, 'l') || ft_strchr(opts, 'R')) && !is_allowed(buf))
 		{
 			fd_error(buf);
 			free(buf);
 			continue ;
-		}
+		}*/
 		ft_addstr(p, buf);
 		if (is_dir(buf) && ft_strchr(opts, 'R') != NULL &&
 				ft_strcmp(d.dp->d_name, ".") && ft_strcmp(d.dp->d_name, ".."))

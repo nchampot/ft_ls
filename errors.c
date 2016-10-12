@@ -6,7 +6,7 @@
 /*   By: nchampot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/07 16:18:03 by nchampot          #+#    #+#             */
-/*   Updated: 2016/09/22 07:33:43 by nchampot         ###   ########.fr       */
+/*   Updated: 2016/10/12 12:26:13 by nchampot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		is_allowed(char *path)
 	struct stat		fstat;
 	struct passwd	*fuid;
 
-	if (lstat(path, &fstat) < 0)
+	if (opendir(path) == NULL || lstat(path, &fstat) < 0)
 		return (0);
 	return (1);
 }
@@ -40,6 +40,8 @@ char	*crop(char *path)
 	if (!path)
 		return (NULL);
 	len = ft_strlen(path);
+	if (path[len - 1] == '/')
+		return ("");
 	if (len == 1)
 		return (path);
 	if (path[len - 1] != '/' && ft_strchr(path, '/'))
@@ -60,16 +62,12 @@ char	*extend(char *path, char *d_name)
 
 int		fd_error(char *path)
 {
-	if (errno != 0)
-	{
-		ft_putstr_fd("ls: ", 2);
-		ft_putstr_fd(crop(path), 2);
-		if (errno == EACCES)
-			ft_putendl_fd(": Permission denied", 2);
-		else
-			ft_putendl_fd(": No such file or directory", 2);
-		errno = 0;
-		return (1);
-	}
-	return (0);
+	ft_putstr_fd("ls: ", 2);
+	ft_putstr_fd(crop(path), 2);
+	if (errno == EACCES)
+		ft_putendl_fd(": Permission denied", 2);
+	else
+		ft_putendl_fd(": No such file or directory", 2);
+	errno = 0;
+	return (1);
 }
